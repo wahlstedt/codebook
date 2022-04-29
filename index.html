@@ -1,0 +1,873 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <title>Codebook</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Outlined" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700;900&family=Mulish:wght@500;600;700;800&family=Nunito:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'Mulish', Verdana, Geneva, sans-serif;
+            font-size: 9pt;
+        }
+
+        .page {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: 1fr auto auto;
+            grid-template-areas: "top top" "left right";
+            height: 297mm; /* Safari cuts off pages when printing, 294mm works... */
+            width: 210mm;
+            break-after: page; /* Splits up each page for printing */
+        }
+
+        @media screen {
+            .page {
+                border: 1px solid;
+                padding: 10mm;
+                margin: auto auto 50pt;
+            }
+        }
+
+        .letter {
+            height: 11in;
+            width: 8.5in;
+        }
+        
+        .top {
+            grid-area: top;
+            display: flex; /* To make the words container take up remaining space */
+            flex-direction: column;
+        }
+
+        .left {
+            grid-area: left;
+            align-self: start;
+        }
+
+        .right {
+            grid-area: right;
+            margin-left: 10pt;
+        }
+
+        .topgrid {
+            display: grid;
+            grid-template-columns: 80pt 1fr 80pt;
+            grid-template-rows: auto;
+            margin-bottom: 10pt;
+        }
+
+        .circleText {
+            font-size: 20pt;
+            font-weight: 800;
+            width: 1.5em;
+            height: 1.5em;
+            position: relative;
+            top: 1pt;  /* Otherwise it slightly leaks over onto the previous page when printing */
+            background: black;
+            color: white;
+            text-align: center;
+            user-select: none;
+            border-radius: 50%;
+            line-height: 1.5em;
+            display: inline-block;
+            grid-column: 1 / 1;
+            grid-row: 1 / 1;
+        }
+
+        .header {
+            place-self: center;
+            grid-column: 2 / 2;
+            grid-row: 1 / 1;
+            text-align: center;
+            user-select: none;
+        }
+
+        .header .material-icons-outlined {
+            position: relative;
+            top: 0.15em;
+        }
+
+        .header p {
+            margin: 0;
+            letter-spacing: 2pt;
+        }
+
+        .title {
+            font-weight: 500;
+            font-size: 24px;
+            padding: 0 2pt;
+            text-align: center;
+        }
+
+        .gameid {
+            font-weight: 500;
+            font-size: 18pt;
+            text-align: right;
+            grid-column: 3;
+            grid-row: 1;
+        }
+
+        .key {
+            place-self: center;
+            grid-column: span 3;
+            grid-row: 2;
+            user-select: none;
+        }
+
+        .words-container {
+            display: flex;
+            flex: 1; /* To take up all available space */
+            flex-direction: row;
+            flex-wrap: wrap;
+            align-content: stretch;
+            align-items: center;
+            border: 4pt solid black;
+            border-radius: 40pt;
+            margin-bottom: 20pt;
+            padding: 10pt 0;
+        }
+
+        .black {
+            display: flex; /* Makes it 100% */
+            border-width: 0;
+            padding-top: 0;
+            padding-bottom: 0;
+        }
+
+        .green {
+            display: flex; /* Makes it 100% */
+            border-width: 5pt;
+            border-style: double;
+            border-radius: 20pt;
+            padding-top: 5pt;
+            padding-bottom: 5pt;
+        }
+
+        .white {
+            border-width: 2pt;
+            border-style: solid;
+        }
+
+        .words-container div {
+            flex: 1;
+            font-size: 14pt;
+            font-weight: 800;
+            text-align: center;
+            flex-basis: 17%;
+            padding: 0 6pt;
+        }
+
+        .black div {
+            font-size: 12pt;
+            font-weight: 600;
+            flex-basis: auto;
+            padding: 4pt 10pt 4pt 10pt;
+            margin: 2pt;
+            background-color: black;
+            color: white;
+        }
+
+        .green div {
+            font-size: 12pt;
+            font-weight: 700;
+            flex-basis: 26%;
+            padding: 4pt 0;
+            margin: 2pt;
+        }
+
+        .helptext {
+            font-size: 9pt;
+            text-align: center;
+            font-weight: normal;
+            margin: 0 2pt 2pt 2pt;
+        }
+
+        .helptext b {
+            font-weight: 700;
+        }
+
+        .tracker {
+            border-collapse: collapse;
+            table-layout: fixed;
+            width: 100%;
+            font-size: 28pt;
+        }
+
+        .tracker th {
+            border: 1px solid black;
+            width: 20pt;
+            font-size: 12pt;
+            font-weight: normal;
+            vertical-align: bottom;
+            user-select: none;
+        }
+
+        .tracker th:nth-child(2) {
+            width: auto;
+            text-align: left;
+            padding-left: 6pt;
+            padding-bottom: 4pt;
+        }
+
+        .tracker thead tr {
+            height: 25pt;
+        }
+
+        .tracker tr {
+            height: 32pt;
+        }
+
+        .tracker td {
+            border: 1px solid black;
+        }
+
+        .tracker td:nth-child(2) {
+            border-right-style: dashed;
+        }
+
+        .tracker td:nth-child(3) {
+            border-left-style: none;
+        }
+
+        .tracker .clear {
+            border: 0;
+        }
+
+        .tracker .shaded {
+            background-color: lightgrey;
+        }
+
+        .keyrow {
+            margin: 0;
+        }
+        
+        .nudgeup {
+            position: relative;
+            top: -0.4em;
+        }
+
+        .nudgedown {
+            position: relative;
+            top: 0.4em;
+        }
+
+        .md-12 { font-size: 12px; }
+        .md-14 { font-size: 14px; }
+        .md-16 { font-size: 16px; }
+        .md-18 { font-size: 18px; }
+
+        .settings {
+            display: grid;
+            grid-row-gap: 5pt;
+            grid-template-columns: 1fr 1fr 1fr;
+            grid-template-rows: auto;
+            font-size: 12pt;
+            text-align: center;
+            border: 3pt dotted black;
+            background: lightskyblue;
+            border-radius: 40pt;
+            padding: 10pt 0;
+            width: 210mm;
+            margin: auto auto 20pt;
+        }
+
+        .settings .status {
+            grid-column-start: span 3;
+            margin-bottom: 10pt;
+        }
+
+        .settings #seed {
+            width: 4em;
+        }
+
+        .helpSetting {
+            align-self: end;
+        }
+
+        .customizer {
+            grid-column: span 3;
+            display: inline-grid;
+            grid-template-columns: repeat(7, max-content);
+            column-gap: 2pt;
+            margin: 10pt auto auto; /* Center the table in the setting grid cell */
+        }
+
+        .customizer .rowstart {
+            grid-column: 1;
+        }
+        
+        .customizer .custline {
+            grid-column: span 3;
+            margin: 2px 4px 4px;
+            border: 1px solid black;
+            border-top: none;
+            height: 5pt;
+        }
+
+        .customizer .custinfo {
+            grid-column: span 3;
+            font-size: 10pt;
+            position: relative;
+            top: -3pt;
+        }
+
+        .customizer input[type="number" i]  {
+            font-size: 12pt;
+            width: 2em;
+        }
+        
+        .customizer .reset {
+            grid-column: 1 / -1;
+            padding-top: 4pt;
+        }
+
+        .turnSetting {
+            align-self: center;
+            grid-row: 2;
+            grid-column: 7;
+            padding-left: 20pt;
+        }
+
+        .customizer .turnsText {
+            align-self: end;
+            padding-left: 20pt;
+        }
+
+        .advanced {
+            display: none;
+        }
+
+        .toggle {
+            cursor: pointer;
+            user-select: none;
+            grid-column: 2;
+            grid-row: 4;
+        }
+
+        #expander {
+            position: relative;
+            top: 0.3em;
+        }
+
+        form {
+            display: contents;
+        }
+        
+        @media print {
+            .settings, .settings * {
+                display: none !important;
+            }
+        }
+
+    </style>
+
+    <script>
+        console.log("C O D E B O O K   v1.0");
+        // Init the globals
+        let allWords = [];
+
+        // These should really be in a separate file, but I want to keep everything self-contained in a single html file */
+        const translations = {
+            "sv": {
+                "all": "Välj från dessa ord. Hittade ord markeras även nedanför. Du och din medspelare har 9 rundor på er att hitta 15 av de 25 orden.",
+                "green": "Ge ledtrådar till dessa ord. Hittade ord markeras även ovanför.",
+                "white": "Om din medspelare väljer ett av dessa ord avslutas rundan.",
+                "black": "Om din medspelare väljer ett av dessa ord förlorar ni spelet!",
+                "clue": "Ledtråd"
+            }
+        };
+
+        window.onload = function() {
+            // Add event listeners to enable drag-n-drop on the whole document
+            document.addEventListener("dragover", ev => {
+                // Prevent default to allow drop
+                ev.preventDefault();
+                ev.dataTransfer.dropEffect = "link";
+            }, false);
+            document.addEventListener("drop", onDrop);
+
+            // We need to recreate everything whenever a setting is changed
+            document.addEventListener("change", renderAll);
+            // Special handling of the reset button, so we can access the reset values immediately
+            document.body.querySelector(".reset input").addEventListener("click", onReset);
+        };
+
+
+        // Renders multiple games
+        function renderAll() {
+            // Remove any previously generated pages
+            document.body.querySelectorAll(".page").forEach(node => node.remove());
+
+            // Grab selected options
+            const seed = document.getElementById("seed").valueAsNumber;
+            const numGames = parseInt(document.getElementById("games").value);
+            const turns = document.getElementById("turns").valueAsNumber;
+
+            // Defines how many of each symbol combination there is
+            // [ playerA, playerB, count ]   0=white, 1=green, 2=black
+            const deck = [
+                [1, 2, document.getElementById("12").valueAsNumber], // green / black - 1 copy
+                [1, 0, document.getElementById("01").valueAsNumber], // green / white - 5 copies
+                [1, 1, document.getElementById("11").valueAsNumber], // green / green - 3 copies
+                [0, 1, document.getElementById("01").valueAsNumber], // white / green - 5 copies
+                [2, 1, document.getElementById("12").valueAsNumber], // black / green - 1 copy
+                [2, 0, document.getElementById("02").valueAsNumber], // black / white - 1 copy
+                [2, 2, document.getElementById("22").valueAsNumber], // black / black - 1 copy
+                [0, 0, document.getElementById("00").valueAsNumber], // white / white - 7 copies
+                [0, 2, document.getElementById("02").valueAsNumber]  // white / black - 1 copy
+            ];
+
+            // Build the html for the key and tracker
+            const key = buildKey(deck);
+            const tracker = buildTracker(turns);
+
+            // Generate all pages
+            for (let gameID = seed; gameID < seed + numGames; gameID++) {
+                generateGame(gameID, key, tracker, deck);
+            }
+        }
+
+        // Renders one game (two pages)
+        function generateGame(gameID, key, tracker, deck) {
+            // Avoid console errors if we don't have a wordlist loaded
+            const wordsNeeded =  calcNumWords(deck);
+            if (allWords.length < wordsNeeded) return;
+
+            // Create a page from the template
+            const template = document.getElementById("page");
+            const pageA = template.content.cloneNode(true);
+
+            // Start filling in the data, beginning with what is shared between both players
+            // They key is static
+            pageA.getElementById("key").appendChild(key.cloneNode(true));
+            // Create the code for the gametype combination
+            const codeText = deck[7][2].toString(21) + deck[2][2].toString(21) + deck[6][2].toString(21) + "–" + deck[5][2].toString(21) + deck[0][2].toString(21) + deck[1][2].toString(21);
+            // Only add the code if the game type isn't the default
+            if (codeText !== "731–115") pageA.getElementById("code").textContent = codeText;
+
+            // Game ID is the same for both pages
+            pageA.querySelector("slot[name=gameid]").textContent = String(gameID).padStart(3, '0');
+
+            // Insert the requested number of rows to the tracker
+            pageA.querySelector(".tracker tbody tr").before(tracker.cloneNode(true));
+
+            // Put in the translated text (we always need the "Clue" translation so we always add them before we check if helptexts are enabled)
+            const language = document.getElementById("lang").value;
+            if (language !== "en") { // The english text is already in the template
+                const text = translations[language];
+                for (id of ["all", "green", "white", "black", "clue"]) {
+                    pageA.getElementById(id).innerHTML = text[id];
+                }
+            }
+
+            // Fill in the gametype data, if they are shown
+            if (document.getElementById("help").checked) {
+                // Replace the numbers in the "all" helptext with the current numbers and make them bold
+                const element = pageA.getElementById("all");
+                const words =  element.textContent.split(' ');
+                // Number of words to find
+                words[words.indexOf("15")] = `<b>${deck[0][2] + deck[1][2] + deck[2][2] + deck[3][2] +deck[4][2]}</b>`;
+                // Total number of words
+                words[words.indexOf("25")] = `<b>${wordsNeeded}</b>`;
+                // Number of turns
+                const turns = document.getElementById("turns").valueAsNumber;
+                words[words.indexOf("9")] = `<b>${turns}</b>`;
+                element.innerHTML = words.join(' ');
+            } else {
+                // Remove help texts
+                pageA.querySelectorAll(".helptext").forEach(node => node.hidden = true);
+            }
+
+            // Set the page size
+            const pageSize = document.getElementById("size").value;
+            if (pageSize !=="A4") {
+                const page = pageA.querySelector(".page");
+                page.classList.add("letter");
+            }
+
+            // Grab the required number of random words
+            const words = sample(allWords, wordsNeeded, gameID);
+
+            // Both players have an area with all the words
+            const sortedWords = [...words].sort(); // sort() is destructive, need to work on a copy of the array
+            insertWords(pageA, "allwords", sortedWords);
+
+            // The rest of the data is different so we need to duplicate the node to fill them in separately
+            const pageB = pageA.cloneNode(true);
+            pageB.querySelector("slot[name=player]").textContent = "B";
+
+            // Holder for each player's words, index 0 = white, 1 = green, 2 = black
+            const wordsA = [ [], [], [] ], wordsB = [ [], [], [] ];
+            let wordIndex = 0;
+            // Iterate over the 9 combinations and assign words to each player
+            for (const data of deck) {
+                for (let n = 0; n < data[2]; n++) { // The 3rd value is the number of words
+                    wordsA[data[0]].push(words[wordIndex]); // 1st value is what type of word this is for player A
+                    wordsB[data[1]].push(words[wordIndex]); // 2nd value is for player B
+                    wordIndex++;
+                }
+            }
+
+            // Place the words into the template
+            // Player A
+            insertWords(pageA, "whitewords", wordsA[0].sort());
+            insertWords(pageA, "greenwords", wordsA[1].sort());
+            insertWords(pageA, "blackwords", wordsA[2].sort());
+            // Player B
+            insertWords(pageB, "whitewords", wordsB[0].sort());
+            insertWords(pageB, "greenwords", wordsB[1].sort());
+            insertWords(pageB, "blackwords", wordsB[2].sort());
+
+            // Add the pages in their respective section
+            const player = document.getElementById("player").value;
+            if (player !== "B") document.body.insertBefore(pageA, document.getElementById("separator"));
+            if (player !== "A") document.body.appendChild(pageB);
+        }
+
+        // Takes an array of words and puts them into divs at the specified location
+        function insertWords(template, id, words) {
+            template.getElementById(id).append(...words.map(w => Object.assign(document.createElement("div"), {textContent: w})));
+        }
+
+        // Creates the html for the tracker table
+        function buildTracker(rows) {
+            const row = document.createElement("tr");
+            for (let n = 0; n < 6; n++) {
+                row.appendChild(document.createElement("td"));
+            }
+
+            const tracker = document.createDocumentFragment();
+            for (let n = 0; n < rows; n++) {
+                tracker.appendChild(row.cloneNode(true));
+            }
+            return tracker;
+        }
+
+        // Creates the html for the key table
+        function buildKey(deck) {
+            // Adjust the symbol size for optimal fit
+            // (Maxes out at 66 symbols but the paper gets full before that; 45 words is about the max that will fit)
+            const s = calcNumWords(deck);
+            const size = (s > 56) ? "md-12" :
+                         (s > 49) ? "md-14" :
+                         (s > 44) ? "md-16" :
+                         (s > 33) ? "md-18" : "";
+
+            // Set up the symbols to be cloned into the table
+            const lookup = [], symbols = [["-outlined", "circle"], ["-outlined", "stars"], ["", "circle"], ["", "height"]];
+            for (const sym of symbols) {
+                const element = document.createElement("span");
+                element.className = `material-icons${sym[0]} ${size}`;
+                element.textContent = sym[1];
+                lookup.push(element);
+            }
+
+            const topRow = document.createElement("p");
+            topRow.className = "keyrow nudgedown";
+            const midRow = document.createElement("p");
+            midRow.className = "keyrow";
+            const bottomRow = document.createElement("p");
+            bottomRow.className = "keyrow nudgeup";
+
+            // Add the symbols
+            for (const type of deck) {
+                for (let n = 0; n < type[2]; n++) {
+                    topRow.appendChild(lookup[type[1]].cloneNode(true));
+                    bottomRow.appendChild(lookup[type[0]].cloneNode(true));
+                    midRow.appendChild(lookup[3].cloneNode(true));
+                }
+            }
+            const key = document.createDocumentFragment();
+            key.append(topRow, midRow, bottomRow);
+            return key;
+        }
+
+        // Calculate how many words in total (normal game is 25)
+        function calcNumWords(deck) {
+            return deck.reduce((prev, curr) => prev + curr[2], 0);
+        }
+
+
+        // Called when files are dropped on the window
+        function onDrop(ev) {
+            // Prevent file from being opened
+            ev.preventDefault();
+
+            // Remove any previous words
+            allWords = [];
+
+            if (ev.dataTransfer.items) {
+                const promises = [];
+                for (const item of ev.dataTransfer.items) {
+                    // Ignore dropped items that aren't files
+                    if (item.kind === "file") {
+                        const file = item.getAsFile();
+                        console.log(`File: ${file.name}`);
+                        promises.push(file.text());
+                    }
+                }
+
+                // Wait for all dropped files to be read, then collect the words
+                Promise.all(promises).then((results) => {
+                    for (const txt of results) {
+                        // split() makes each line an array item. filter() removes empty lines.
+                        allWords.push(...txt.split(/\r?\n/).filter(Boolean).map(w => w.toUpperCase()));
+                    }
+                    // Remove duplicates
+                    allWords = [...new Set(allWords)];
+                    const len = allWords.length;
+                    console.log(`Loaded ${len} words`);
+                    if (len < 25) throw new RangeError("Need at least 25 words!");
+                    document.getElementById("status").innerHTML = `${len} words loaded. <a href='javascript:window.print()'>Click here</a> to print or save as PDF.`;
+                    renderAll();
+                });
+            }
+        }
+
+        // Called when the customizer form is reset
+        // (Uses a click event handler since the reset event is triggered BEFORE the values are reset)
+        function onReset(ev) {
+            ev.preventDefault();
+            // Manually reset the form, so we get updated values
+            ev.srcElement.form.reset();
+            renderAll();
+        }
+
+        // Handle clicks on the advanced settings toggler
+        function toggle(ev) {
+            let items = document.getElementsByClassName("advanced");
+            const caret = document.getElementById("expander");
+            for (let element of items) {
+                if (window.getComputedStyle(element).display === "none") {
+                    element.style.display = element.classList.contains("customizer") ? "grid" : "block"; // Hacky...
+                    caret.textContent = "expand_less";
+                } else {
+                    element.style.display = "none";
+                    caret.textContent = "expand_more";
+                }
+            }
+        }
+
+        // Chooses k unique random elements from pool
+        function sample(pool, k, seed = 1) {
+            const n = pool.length;
+            if (k < 0 || k > n) throw new RangeError("Sample larger than population or is negative");
+            const rand = mulberry32(seed);
+            const selected = new Set();
+            while (selected.add(rand() * n | 0).size < k) {}
+            return [...selected].map(x => pool[x]);
+        }
+
+        // Seedable PRNG
+        function mulberry32(seed) {
+            return function () {
+                let t = seed += 0x6D2B79F5;
+                t = Math.imul(t ^ t >>> 15, t | 1);
+                t ^= t + Math.imul(t ^ t >>> 7, t | 61);
+                return ((t ^ t >>> 14) >>> 0) / 4294967296;
+            }
+        }
+    </script>
+</head>
+
+<template id="page">
+    <div class="page">
+        <div class="top">
+            <div class="topgrid">
+                <div class="circleText">
+                    <slot name="player">A</slot>
+                </div>
+                <div class="header">
+                    <span class="title">C</span>
+                    <span class="material-icons-outlined">adjust</span>
+                    <span class="title">D</span>
+                    <span class="title">E</span>
+                    <span class="title">B</span>
+                    <span class="material-icons-outlined">circle</span>
+                    <span class="material-icons-outlined">circle</span>
+                    <span class="title">K</span>
+                    <p id="code"></p>
+                </div>
+                <div class="gameid">
+                    <slot name="gameid">000</slot>
+                </div>
+                <div class="key" id="key">
+                </div>
+            </div>
+
+            <div id="all" class="helptext">
+                Select words from here. Mark found words below as well. You and your partner need to find 15 out of 25 words in 9 turns.
+            </div>
+            <div id="allwords" class="words-container">
+            </div>
+        </div>
+        <div class="left">
+            <div id="green" class="helptext">
+                Give clues to these words. Mark found words above as well.
+            </div>
+            <div id="greenwords" class="words-container green">
+            </div>
+            <div id="white" class="helptext">
+                If your partner selects one of these words, the turn ends.
+            </div>
+            <div id="whitewords" class="words-container green white">
+            </div>
+            <div id="black" class="helptext">
+                If your partner selects one of these words, the game is lost!
+            </div>
+            <div id="blackwords" class="words-container black">
+            </div>
+        </div>
+        <div class="right">
+            <table class="tracker">
+                <thead>
+                <tr>
+                    <th><span class="material-icons">face</span></th>
+                    <th id="clue">Clue</th>
+                    <th><span class="material-icons">numbers</span></th>
+                    <th><span class="material-icons">check</span></th>
+                    <th><span class="material-icons">clear</span></th>
+                    <th><span class="material-icons">question_mark</span></th>
+                </tr>
+                </thead>
+                <tbody>
+
+                <tr>
+                    <td class="clear"></td>
+                    <td class="clear"></td>
+                    <td class="clear"></td>
+                    <td class="clear"></td>
+                    <td style="border-right-style: none"></td>
+                    <td style="border-left-style: none"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</template>
+
+<body>
+
+<div class="settings">
+   <div id="status" class="status">Drop one or more textfiles on this window to generate game pages.</div>
+    <div>Start ID<br>
+        <input type="number" id="seed" name="seed" min="0" max="99999" step="10" value="1">
+    </div>
+    <div>Number of games<br>
+        <select name="games" id="games">
+            <option selected>1</option>
+            <option>5</option>
+            <option>10</option>
+            <option>25</option>
+            <option>50</option>
+            <option>100</option>
+        </select>
+    </div>
+
+    <div>Language<br>
+        <select name="lang" id="lang">
+            <option value="en">English</option>
+            <option value="sv">Swedish</option>
+        </select>
+    </div>
+
+    <div>Page size<br>
+        <select name="size" id="size">
+            <option value="A4">A4</option>
+            <option value="letter">US Letter</option>
+        </select>
+    </div>
+
+    <div>Pages<br>
+        <select name="player" id="player">
+            <option>Both</option>
+            <option value="A">Only A</option>
+            <option value="B">Only B</option>
+        </select>
+    </div>
+
+    <div class="helpSetting">
+        <input type="checkbox" id="help" name="help" checked>
+        <label for="help">Include help texts</label>
+    </div>
+    
+    <div class="toggle" onclick="toggle()">Advanced settings <span id="expander" class="material-icons-outlined">expand_more</span></div>
+
+    <div class="customizer advanced">
+        <form>
+            <div>
+                <span class="material-icons-outlined">circle</span><br>
+                <span class="material-icons-outlined">circle</span>
+            </div>
+            <div>
+                <span class="material-icons-outlined">stars</span><br>
+                <span class="material-icons-outlined">stars</span>
+            </div>
+            <div>
+                <span class="material-icons">circle</span><br>
+                <span class="material-icons">circle</span>
+            </div>
+            <div>
+                <span class="material-icons">circle</span><br>
+                <span class="material-icons-outlined">circle</span>
+            </div>
+            <div>
+                <span class="material-icons">circle</span><br>
+                <span class="material-icons-outlined">stars</span>
+            </div>
+            <div>
+                <span class="material-icons-outlined">stars</span><br>
+                <span class="material-icons-outlined">circle</span>
+            </div>
+
+            <div class="turnsText">Turns</div>
+
+            <div class="count rowstart">
+                <input type="number" id="00" min="0" max="20" value="7">
+            </div>
+            <div class="count">
+                <input type="number" id="11" min="0" max="20" value="3">
+            </div>
+            <div class="count">
+                <input type="number" id="22" min="0" max="10" value="1">
+            </div>
+            <div class="count">
+                <input type="number" id="02" min="0" max="10" value="1">
+            </div>
+            <div class="count">
+                <input type="number" id="12" min="0" max="10" value="1">
+            </div>
+            <div class="count">
+                <input type="number" id="01" min="0" max="10" value="5">
+            </div>
+
+            <div class="custline"></div>
+            <div class="custline"></div>
+
+            <div class="custinfo">
+                Total count
+            </div>
+            <div class="custinfo">
+                Count per player
+            </div>
+
+            <div class="turnSetting">
+                <input type="number" id="turns" name="turns" min="2" max="20" value="9">
+            </div>
+
+            <div class="reset">
+                <input type="reset">
+            </div>
+        </form>
+    </div>
+</div>
+
+<div id="separator"></div>
+
+</body>
+</html>
