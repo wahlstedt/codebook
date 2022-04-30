@@ -6,7 +6,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Outlined" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700;900&family=Mulish:wght@500;600;700;800&family=Nunito:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Architects+Daughter&family=Lato:wght@400;700;900&family=Mulish:wght@500;600;700&family=Nunito:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
     <style>
         body {
@@ -62,7 +62,7 @@
 
         .circleText {
             font-size: 20pt;
-            font-weight: 800;
+            font-weight: 700;
             width: 1.5em;
             height: 1.5em;
             position: relative;
@@ -129,6 +129,17 @@
             border-radius: 40pt;
             margin-bottom: 20pt;
             padding: 10pt 0;
+            user-select: none;
+        }
+
+        .words-container .strike {
+            text-decoration: line-through red solid 3pt;
+        }
+
+        .words-container .circle {
+            border: 3pt green solid;
+            border-radius: 16pt;
+            padding: 0 4pt;
         }
 
         .black {
@@ -155,7 +166,7 @@
         .words-container div {
             flex: 1;
             font-size: 14pt;
-            font-weight: 800;
+            font-weight: 700;
             text-align: center;
             flex-basis: 17%;
             padding: 0 6pt;
@@ -194,7 +205,6 @@
             border-collapse: collapse;
             table-layout: fixed;
             width: 100%;
-            font-size: 28pt;
         }
 
         .tracker th {
@@ -288,12 +298,18 @@
             align-self: end;
         }
 
+        .interactSetting {
+            align-self: start;
+            grid-column: 3;
+            grid-row: 5;
+        }
+
         .customizer {
             grid-column: span 3;
             display: inline-grid;
             grid-template-columns: repeat(7, max-content);
             column-gap: 2pt;
-            margin: 10pt auto auto; /* Center the table in the setting grid cell */
+            margin: auto; /* Center the table in the setting grid cell */
         }
 
         .customizer .rowstart {
@@ -341,7 +357,7 @@
             display: none;
         }
 
-        .toggle {
+        .expand {
             cursor: pointer;
             user-select: none;
             grid-column: 2;
@@ -356,7 +372,23 @@
         form {
             display: contents;
         }
-        
+
+        .tracker-text {
+            font-size: 18pt;
+            font-family: 'Architects Daughter', cursive;
+            text-transform: uppercase;
+            border: 0;
+            margin: 0;
+            vertical-align: middle;
+            text-align: center;
+            user-select: none;
+        }
+
+        .tracker-clue {
+            text-align: left;
+            width: 96%;
+        }
+
         @media print {
             .settings, .settings * {
                 display: none !important;
@@ -391,7 +423,7 @@
             document.addEventListener("drop", onDrop);
 
             // We need to recreate everything whenever a setting is changed
-            document.addEventListener("change", renderAll);
+            document.addEventListener("change", onChange);
             // Special handling of the reset button, so we can access the reset values immediately
             document.body.querySelector(".reset input").addEventListener("click", onReset);
         };
@@ -428,6 +460,31 @@
             // Generate all pages
             for (let gameID = seed; gameID < seed + numGames; gameID++) {
                 generateGame(gameID, key, tracker, deck);
+            }
+
+            // Add interactivity
+            if (document.getElementById("interactive").checked) {
+                // Only add interactivity to the first page
+                const page = document.body.querySelector(".page");
+
+                // Insert the text inputs to the clue column
+                const col2 = page.querySelectorAll("tbody tr td:nth-child(2)");
+                // Don't add to the last row
+                for (let n = 0; n < col2.length - 1; n++) {
+                    const el = col2[n];
+                    const input = document.createElement("input");
+                    input.type = "text";
+                    input.className = "tracker-text tracker-clue";
+                    el.appendChild(input);
+                }
+
+                // Add event handler to catch word clicks (exept the black words, which don't need to be marked manually)
+                const containers = page.querySelectorAll(".words-container:not(.black) span");
+                containers.forEach(e => e.addEventListener("click", onWordClick));
+
+                // Add event handler to catch clicks on the tracker table
+                const table = page.querySelector(".tracker tbody");
+                table.addEventListener("click", onTrackerClick);
             }
         }
 
@@ -530,7 +587,15 @@
 
         // Takes an array of words and puts them into divs at the specified location
         function insertWords(template, id, words) {
-            template.getElementById(id).append(...words.map(w => Object.assign(document.createElement("div"), {textContent: w})));
+            template.getElementById(id).append(...words.map(w => {
+                const div = document.createElement("div");
+                // Need to wrap the word in a span to allow for border styling when using interactive mode
+                const span = document.createElement("span");
+                span.textContent = w;
+                span.dataset.word = w; // So interactive mode can easily find words with css selectors
+                div.appendChild(span);
+                return div;
+            }));
         }
 
         // Creates the html for the tracker table
@@ -628,6 +693,12 @@
             }
         }
 
+        // Called when a form element changes
+        function onChange(ev) {
+            // Ignore events from the interactive text input - otherwise it's from settings and we need to re-render all pages
+            if (!ev.target.classList.contains("tracker-clue")) renderAll();
+        }
+        
         // Called when the customizer form is reset
         // (Uses a click event handler since the reset event is triggered BEFORE the values are reset)
         function onReset(ev) {
@@ -637,8 +708,31 @@
             renderAll();
         }
 
-        // Handle clicks on the advanced settings toggler
-        function toggle(ev) {
+        // Called when clicking on the words
+        function onWordClick(ev) {
+            const cl = ev.target.classList;
+            const page = ev.target.closest(".page"); // Get the current page element
+            // Find the 2 instances of the clicked word
+            const words = page.querySelectorAll(`[data-word="${ev.target.textContent}"]`);
+
+            if (cl.contains("strike")) {
+                // When circling a word we should also circle the same word in the other list
+                words.forEach(e => e.className = "circle");
+            } else if (cl.contains("circle")) {
+                // We also need to remove the circle in the other list
+                words.forEach(e => e.className = "");
+            } else { // Unmarked word
+                // Words in the green area should only be possible to find, not cross out
+                if (ev.target.closest("#greenwords")) {
+                    words.forEach(e => e.className = "circle");
+                } else {
+                    cl.add("strike");
+                }
+            }
+        }
+
+        // Handle clicks on the advanced settings expander
+        function onExpand(ev) {
             let items = document.getElementsByClassName("advanced");
             const caret = document.getElementById("expander");
             for (let element of items) {
@@ -650,6 +744,33 @@
                     caret.textContent = "expand_more";
                 }
             }
+        }
+
+        // Called when a cell in the tracker table is clicked
+        function onTrackerClick(ev) {
+            switch (ev.target.cellIndex) {
+                case 0: // User
+                    ev.target.textContent = toggle(ev.target.textContent, ["A", "B"]);
+                    break;
+                case 2: // Clue number
+                    ev.target.textContent = toggle(ev.target.textContent, ["1", "2", "3", "4", "0"]);
+                    break;
+                case 3: // Correct guesses
+                    ev.target.textContent = toggle(ev.target.textContent, ["1", "2", "3", "4", "0"]);
+                    break;
+                case 4: // Mistakes
+                    ev.target.textContent = toggle(ev.target.textContent, ["", "1"]);
+                    break;
+                case 5: // Remaining
+                    ev.target.textContent = toggle(ev.target.textContent, ["", "1", "2", "3", "4"]);
+                    break;
+            }
+        }
+
+        // Toggles through a series of options
+        function toggle(current, options) {
+            const idx = options.indexOf(current);
+            return (idx === -1 || idx === options.length-1) ? options[0] : options[idx+1];
         }
 
         // Chooses k unique random elements from pool
@@ -734,7 +855,7 @@
                     <th><span class="material-icons">question_mark</span></th>
                 </tr>
                 </thead>
-                <tbody>
+                <tbody class="tracker-text">
 
                 <tr>
                     <td class="clear"></td>
@@ -796,7 +917,7 @@
         <label for="help">Include help texts</label>
     </div>
     
-    <div class="toggle" onclick="toggle()">Advanced settings <span id="expander" class="material-icons-outlined">expand_more</span></div>
+    <div class="expand" onclick="onExpand()">Advanced settings <span id="expander" class="material-icons-outlined">expand_more</span></div>
 
     <div class="customizer advanced">
         <form>
@@ -864,6 +985,11 @@
                 <input type="reset">
             </div>
         </form>
+    </div>
+
+    <div class="interactSetting advanced">
+        <input type="checkbox" id="interactive" name="interactive" checked>
+        <label for="interactive">Interactive</label>
     </div>
 </div>
 

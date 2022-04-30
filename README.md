@@ -1,5 +1,6 @@
 # Codebook
-A simple-to-use tool to generate pages you print out to play a fun cooperative wordgame with.
+A simple-to-use tool to generate pages you print out to play a fun cooperative wordgame.
+
 ## How to use
 - Open the html file in a browser, either your local copy or the one [online](http://wahlstedt.github.io/codebook/). 
 - Drag a textfile with words onto the page. Use one of the included wordlists or your own.
@@ -15,16 +16,15 @@ It is a cooperative wordgame for two or more players where the game gives you wo
 A clue is only one word, but it can point to multiple words that you want your partner to select. You and your partner 
 take turns giving clues and selecting words. If you find all the words before you run out of turns, you both win.
 
-Each player has their own page with the same list of words, but mixed up differently. The large section on top is 
+Each player has their own page with the same selection of words, but mixed up differently. The large section on top is 
 the list of all the words and is the same for both players. The smaller list below with the double outline contains 
-the target words you are trying to get your partner to find. The list below that, with the single outline, are 
-unused words you want your partner to avoid. Finally, the words at the bottom are the black words that your partner 
-absolutely must not select because if that happens the game is lost!
+the target words you want your partner to select. The list below that, with the single outline, are words you want 
+your partner to avoid. Finally, the black words at the bottom are words that your partner absolutely must not select because if that happens, you both lose the game!
        
 ### Setup
 A game consists of 2 pages. Each player takes one of the pages, A or B. Make sure they have the same id. 
 
-The words in the top list are the same and not secret, but the smaller lists below are different and should be kept out of sight from your partner.
+The top list of words is identical to both players, but the smaller lists below are different and should not be revealed to your partner.
 
 Choose a starting player, then alternate turns giving clues.
 ### Turns
@@ -36,15 +36,14 @@ If the word is in your list of target words you say it was a correct word and yo
 
 If the word is among your black words, you both lose the game.
 
-Otherwise, the selected word is incorrect and you report this to your partner, who isn't allowed to make any 
-further selections since this turn is now over.
+Otherwise, the selected word is incorrect and your partner's turn ends immediately.
 
 ### Using the papers
-When a clue is given you note down the word and number given in the tracker table.
+When a clue is given you note the word and number given in the tracker.
 
 When a *correct* word is select you circle it **both** in the upper and lower lists.
 
-When an *incorrect* word is selected you cross it out in only one list; the upper one if you are the guesser and the lower ones if you are the clue giver.
+When an *incorrect* word is selected you cross it out in only one list; the upper one if you are the guesser, the lower ones if you are the clue giver.
 
 When a *black* word is selected you tear the paper up and start a new game.
 
@@ -53,22 +52,22 @@ remind yourself of any remaining words not found yet.
 
 ### Tracker table
 Each row is a turn and the columns are:
-1. Player (e.g. A, B or intitials)
+1. Player (e.g. A/B or intitials)
 2. Clue word.
 3. Clue number.
 4. Correct words. The number of correct words found this turn.
-5. Incorrect words. Put a 1 here if an incorrect word is selected.
+5. Incorrect words. Put a 1 if an incorrect word is selected.
 6. Remaining words. The number of words left to find from this clue.
       
 ### Rule details
 #### Clues
-Your clue must be about the meaning of the words. You can't use your clue to talk about the letters in a word or its position on the table.
+Your clue must be about the meaning of the words. You can't use your clue to talk about the letters in a word or its position in the list.
 
 You can't use any part or form of an unfound word as a clue.
 
 Clue givers can't give any indication about whether a correct guess was the word they were thinking of for their clue, and must refrain from any comments or reactions that could assist the guesser.
 
-It is legal to give a clue for zero. But your partner must still select at least one word.
+It is legal to assign 0 for clue number. But your partner must still select at least one word.
                  
 #### Out of words
 If all of your target words have been found, tell your partner that there's no words left. Your partner will be the one giving clues on all remaining turns.
@@ -90,7 +89,7 @@ Scoring is optional, but can be used to compare games with others.
 Games ended by a black word score differently: -10 points for each unused turn, mistake, and unfound target
 
 ## Settings
-The settings should be fairly self-explanatory, except the advanced one where you can create alternate game variants:
+Most settings should be fairly self-explanatory, the advanced ones require some explanation:
 
 ### Game variants
 The standard game has 25 words, where each player has 9 target words and 3 black words, and you both need to find a total of 15 words in order to win.
@@ -103,7 +102,13 @@ game is symmetric (both players have the same combinations) you can only adjust 
 
 The values for the combinations where the words are the same type for both players are set _in total_, while the other
 combinations are set with the number _per player_, in order to keep the game symmetric.
-     
+   
+### Interactive mode
+The _first_ page is by default interactive to enable play on device. Click on words to toggle their status. Found 
+words are automatically marked in both sections.
+
+Click on the tracker table cells to enter clues or toggle values.
+
 ## Troubleshooting
 ### Printing
 Chrome is recommended and known to produce correct pages. Safari seems to have issues with printing and can split up pages weirdly.
