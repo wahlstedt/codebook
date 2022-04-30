@@ -41,18 +41,18 @@ Otherwise, the selected word is incorrect and your partner's turn ends immediate
 ### Using the papers
 When a clue is given you note the word and number given in the tracker.
 
-When a *correct* word is select you circle it **both** in the upper and lower lists.
+When a *correct* word is selected you circle it **both** in the upper and lower lists.
 
-When an *incorrect* word is selected you cross it out in only one list; the upper one if you are the guesser, the lower ones if you are the clue giver.
+When an *incorrect* word is selected you cross it off in only one list; the upper one if you are the guesser, the 
+lower ones if you are the clue giver.
 
 When a *black* word is selected you tear the paper up and start a new game.
 
-After a turn ends you also note down how many correct and incorrect words were found to keep track of progress and 
-remind yourself of any remaining words not found yet.  
+After a turn ends you also note down how many correct and incorrect words were found to keep track of progress and remind yourself of any remaining words not yet found.  
 
 ### Tracker table
 Each row is a turn and the columns are:
-1. Player (e.g. A/B or intitials)
+1. Player (e.g. A/B or initials)
 2. Clue word.
 3. Clue number.
 4. Correct words. The number of correct words found this turn.
@@ -89,7 +89,7 @@ Scoring is optional, but can be used to compare games with others.
 Games ended by a black word score differently: -10 points for each unused turn, mistake, and unfound target
 
 ## Settings
-Most settings should be fairly self-explanatory, the advanced ones require some explanation:
+Most settings should be fairly self-explanatory, the advanced ones might require some explanation:
 
 ### Game variants
 The standard game has 25 words, where each player has 9 target words and 3 black words, and you both need to find a total of 15 words in order to win.
@@ -111,7 +111,7 @@ Click on the tracker table cells to enter clues or toggle values.
 
 ## Troubleshooting
 ### Printing
-Chrome is recommended and known to produce correct pages. Safari seems to have issues with printing and can split up pages weirdly.
+Chrome is recommended and known to produce correct pages. Safari seems to have issues with printing and can split up pages in weird ways.
 
 ## Acknowledgements
 Inspired by [cnpaperplay](https://github.com/dcmouser/cnpaperplay) which in turn is based on the boardgame 
