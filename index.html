@@ -6,7 +6,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Outlined" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Architects+Daughter&family=Lato:wght@400;700;900&family=Mulish:wght@500;600;700&family=Nunito:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Architects+Daughter&family=Mulish:wght@500;600;700&family=Nunito:wght@800&display=swap" rel="stylesheet">
 
     <style>
         body {
@@ -479,14 +479,12 @@
 
                 // Insert the text inputs to the clue column
                 const col2 = page.querySelectorAll("tbody tr td:nth-child(2)");
-                // Don't add to the last row
-                for (let n = 0; n < col2.length - 1; n++) {
-                    const el = col2[n];
+                col2.forEach(el => {
                     const input = document.createElement("input");
                     input.type = "text";
                     input.className = "tracker-text js-tracker-clue";
                     el.appendChild(input);
-                }
+                });
 
                 // Add event handler to catch word clicks (except the black words, they shouldn't be marked manually)
                 const containers = page.querySelectorAll(".words-container:not(.black) span");
@@ -520,7 +518,7 @@
             pageA.querySelector("slot[name=gameid]").textContent = String(gameID).padStart(3, '0');
 
             // Insert the requested number of rows to the tracker
-            pageA.querySelector(".tracker tbody tr").before(tracker.cloneNode(true));
+            pageA.querySelector(".tracker tbody").appendChild(tracker.cloneNode(true));
 
             // Put in the translated text (we always need the "Clue" translation so we always add them before we check if helptexts are enabled)
             const language = document.getElementById("lang").value;
@@ -763,9 +761,6 @@
 
         // Called when a cell in the tracker table is clicked
         function onTrackerClick(ev) {
-            // Ignore the last row
-            if (ev.target.parentElement.rowIndex > document.getElementById("turns").valueAsNumber) return;
-            
             switch (ev.target.cellIndex) {
                 case 0: // User
                     ev.target.textContent = toggle(ev.target.textContent, ["A", "B"]);
@@ -874,15 +869,6 @@
                 </tr>
                 </thead>
                 <tbody class="tracker-text">
-
-                <tr>
-                    <td class="clear"></td>
-                    <td class="clear"></td>
-                    <td class="clear"></td>
-                    <td class="clear"></td>
-                    <td style="border-right-style: none"></td>
-                    <td style="border-left-style: none"></td>
-                </tr>
                 </tbody>
             </table>
         </div>

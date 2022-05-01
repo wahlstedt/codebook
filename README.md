@@ -4,7 +4,7 @@ A simple-to-use tool to generate pages you print out to play a fun cooperative w
 ## How to use
 - Download the html file either with git or use the [zip link](https://github.com/wahlstedt/codebook/archive/refs/heads/master.zip).
 - Open the html file in a browser, either your local copy or the one [online](http://wahlstedt.github.io/codebook/). 
-- Drag a textfile with words onto the page. Use one of the included wordlists or your own.
+- Drag a textfile with words onto the page. Use one of the [included wordlists](https://github.com/wahlstedt/codebook/tree/master/wordlists) or your own.
 - Adjust the options to set the style and number of games to generate.
 - Print the pages from your browser, or save them as a pdf.
 - Play the game with friends!
