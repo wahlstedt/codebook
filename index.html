@@ -32,7 +32,7 @@
             }
         }
 
-        .letter {
+        .js-letter {
             height: 11in;
             width: 8.5in;
         }
@@ -60,7 +60,7 @@
             margin-bottom: 10pt;
         }
 
-        .circleText {
+        .circle-text {
             font-size: 20pt;
             font-weight: 700;
             width: 1.5em;
@@ -136,27 +136,35 @@
             -webkit-user-select: none;
         }
 
-        .words-container .strike { /* Using longhand format because Safari doesn't have the shorthand */
+        .words-container div {
+            flex: 1;
+            font-size: 14pt;
+            font-weight: 700;
+            text-align: center;
+            box-sizing: border-box;
+            flex-basis: calc(20% - 6pt); /* Some leeway to allow for the border in interactive mode */
+            padding: 0 6pt;
+        }
+
+        .words-container .js-strike { /* Using longhand format because Safari doesn't have the shorthand */
             text-decoration-thickness: 3pt;
             text-decoration-line: line-through;
             text-decoration-color: red;
         }
 
-        .words-container .circle {
+        .words-container .js-circle {
             border: 3pt green solid;
             border-radius: 16pt;
             padding: 0 4pt;
         }
 
         .black {
-            display: flex; /* Makes it 100% */
             border-width: 0;
             padding-top: 0;
             padding-bottom: 0;
         }
 
         .green {
-            display: flex; /* Makes it 100% */
             border-width: 5pt;
             border-style: double;
             border-radius: 20pt;
@@ -167,15 +175,6 @@
         .white {
             border-width: 2pt;
             border-style: solid;
-        }
-
-        .words-container div {
-            flex: 1;
-            font-size: 14pt;
-            font-weight: 700;
-            text-align: center;
-            flex-basis: 17%;
-            padding: 0 6pt;
         }
 
         .black div {
@@ -191,7 +190,7 @@
         .green div {
             font-size: 12pt;
             font-weight: 700;
-            flex-basis: 26%;
+            flex-basis: calc(33% - 8pt);
             padding: 4pt 0;
             margin: 2pt;
         }
@@ -258,16 +257,16 @@
             background-color: lightgrey;
         }
 
-        .keyrow {
+        .js-keyrow {
             margin: 0;
         }
         
-        .nudgeup {
+        .js-nudgeup {
             position: relative;
             top: -0.4em;
         }
 
-        .nudgedown {
+        .js-nudgedown {
             position: relative;
             top: 0.4em;
         }
@@ -297,15 +296,15 @@
             margin-bottom: 10pt;
         }
 
-        .settings #seed {
+        #seed {
             width: 4em;
         }
 
-        .helpSetting {
+        .setting-help {
             align-self: end;
         }
 
-        .interactSetting {
+        .setting-interact {
             align-self: start;
             grid-column: 3;
             grid-row: 5;
@@ -319,11 +318,11 @@
             margin: auto; /* Center the table in the setting grid cell */
         }
 
-        .customizer .rowstart {
+        .customizer-start-col {
             grid-column: 1;
         }
         
-        .customizer .custline {
+        .customizer-line {
             grid-column: span 3;
             margin: 2px 4px 4px;
             border: 1px solid black;
@@ -331,31 +330,31 @@
             height: 5pt;
         }
 
-        .customizer .custinfo {
+        .customizer-info {
             grid-column: span 3;
             font-size: 10pt;
             position: relative;
             top: -3pt;
         }
 
-        .customizer input[type="number" i]  {
+        .customizer input[type="number"] {
             font-size: 12pt;
-            width: 2em;
+            max-width: 3em;
         }
         
-        .customizer .reset {
+        .customizer-reset {
             grid-column: 1 / -1;
             padding-top: 4pt;
         }
 
-        .turnSetting {
+        .setting-turns {
             align-self: center;
             grid-row: 2;
             grid-column: 7;
             padding-left: 20pt;
         }
 
-        .customizer .turnsText {
+        .customizer-turns {
             align-self: end;
             padding-left: 20pt;
         }
@@ -393,11 +392,11 @@
             -webkit-user-select: none;
         }
 
-        .tracker-clue {
+        .js-tracker-clue {
             user-select: auto;
             -webkit-user-select: auto;
             text-align: left;
-            width: 96%;
+            width: calc(100% - 0.5em);
         }
 
         @media print {
@@ -436,7 +435,7 @@
             // We need to recreate everything whenever a setting is changed
             document.addEventListener("change", onChange);
             // Special handling of the reset button, so we can access the reset values immediately
-            document.body.querySelector(".reset input").addEventListener("click", onReset);
+            document.body.querySelector(".customizer-reset input").addEventListener("click", onReset);
         };
 
 
@@ -485,11 +484,11 @@
                     const el = col2[n];
                     const input = document.createElement("input");
                     input.type = "text";
-                    input.className = "tracker-text tracker-clue";
+                    input.className = "tracker-text js-tracker-clue";
                     el.appendChild(input);
                 }
 
-                // Add event handler to catch word clicks (exept the black words, which don't need to be marked manually)
+                // Add event handler to catch word clicks (except the black words, they shouldn't be marked manually)
                 const containers = page.querySelectorAll(".words-container:not(.black) span");
                 containers.forEach(e => e.addEventListener("click", onWordClick));
 
@@ -554,7 +553,7 @@
             const pageSize = document.getElementById("size").value;
             if (pageSize !=="A4") {
                 const page = pageA.querySelector(".page");
-                page.classList.add("letter");
+                page.classList.add("js-letter");
             }
 
             // Grab the required number of random words
@@ -643,11 +642,11 @@
             }
 
             const topRow = document.createElement("p");
-            topRow.className = "keyrow nudgedown";
+            topRow.className = "js-keyrow js-nudgedown";
             const midRow = document.createElement("p");
-            midRow.className = "keyrow";
+            midRow.className = "js-keyrow";
             const bottomRow = document.createElement("p");
-            bottomRow.className = "keyrow nudgeup";
+            bottomRow.className = "js-keyrow js-nudgeup";
 
             // Add the symbols
             for (const type of deck) {
@@ -707,7 +706,7 @@
         // Called when a form element changes
         function onChange(ev) {
             // Ignore events from the interactive text input - otherwise it's from settings and we need to re-render all pages
-            if (!ev.target.classList.contains("tracker-clue")) renderAll();
+            if (!ev.target.classList.contains("js-tracker-clue")) renderAll();
         }
         
         // Called when the customizer form is reset
@@ -741,23 +740,23 @@
             // Find the 2 instances of the clicked word
             const words = page.querySelectorAll(`.words-container [data-word="${ev.target.textContent}"]`);
 
-            if (cl.contains("strike")) {
+            if (cl.contains("js-strike")) {
                 // White words should only be possible to cross off, not find
                 if (ev.target.closest("#whitewords")) {
                     cl.value = '';
                 } else {
                     // When circling a word we should also circle the same word in the other list
-                    words.forEach(e => e.className = "circle");
+                    words.forEach(e => e.className = "js-circle");
                 }
-            } else if (cl.contains("circle")) {
+            } else if (cl.contains("js-circle")) {
                 // We also need to remove the circle in the other list
                 words.forEach(e => e.className = '');
             } else { // Unmarked word
                 // Green words should only be possible to find, not cross off
                 if (ev.target.closest("#greenwords")) {
-                    words.forEach(e => e.className = "circle");
+                    words.forEach(e => e.className = "js-circle");
                 } else {
-                    cl.add("strike");
+                    cl.add("js-strike");
                 }
             }
         }
@@ -818,7 +817,7 @@
     <div class="page">
         <div class="top">
             <div class="topgrid">
-                <div class="circleText">
+                <div class="circle-text">
                     <slot name="player">A</slot>
                 </div>
                 <div class="header">
@@ -931,7 +930,7 @@
         </select>
     </div>
 
-    <div class="helpSetting">
+    <div class="setting-help">
         <input type="checkbox" id="help" name="help" checked>
         <label for="help">Include help texts</label>
     </div>
@@ -965,48 +964,48 @@
                 <span class="material-icons-outlined">circle</span>
             </div>
 
-            <div class="turnsText">Turns</div>
+            <div class="customizer-turns">Turns</div>
 
-            <div class="count rowstart">
+            <div class="customizer-start-col">
                 <input type="number" id="00" min="0" max="20" value="7">
             </div>
-            <div class="count">
+            <div>
                 <input type="number" id="11" min="0" max="20" value="3">
             </div>
-            <div class="count">
+            <div>
                 <input type="number" id="22" min="0" max="10" value="1">
             </div>
-            <div class="count">
+            <div>
                 <input type="number" id="02" min="0" max="10" value="1">
             </div>
-            <div class="count">
+            <div>
                 <input type="number" id="12" min="0" max="10" value="1">
             </div>
-            <div class="count">
+            <div>
                 <input type="number" id="01" min="0" max="10" value="5">
             </div>
 
-            <div class="custline"></div>
-            <div class="custline"></div>
+            <div class="customizer-line"></div>
+            <div class="customizer-line"></div>
 
-            <div class="custinfo">
+            <div class="customizer-info">
                 Total count
             </div>
-            <div class="custinfo">
+            <div class="customizer-info">
                 Count per player
             </div>
 
-            <div class="turnSetting">
+            <div class="setting-turns">
                 <input type="number" id="turns" name="turns" min="2" max="20" value="9">
             </div>
 
-            <div class="reset">
+            <div class="customizer-reset">
                 <input type="reset">
             </div>
         </form>
     </div>
 
-    <div class="interactSetting advanced">
+    <div class="setting-interact advanced">
         <input type="checkbox" id="interactive" name="interactive" checked>
         <label for="interactive">Interactive</label>
     </div>

@@ -2,6 +2,7 @@
 A simple-to-use tool to generate pages you print out to play a fun cooperative wordgame.
 
 ## How to use
+- Download the html file either with git or use the [zip link](https://github.com/wahlstedt/codebook/archive/refs/heads/master.zip).
 - Open the html file in a browser, either your local copy or the one [online](http://wahlstedt.github.io/codebook/). 
 - Drag a textfile with words onto the page. Use one of the included wordlists or your own.
 - Adjust the options to set the style and number of games to generate.
@@ -36,26 +37,26 @@ If the word is in your list of target words you say it was a correct word and yo
 
 If the word is among your black words, you both lose the game.
 
-Otherwise, the selected word is incorrect and your partner's turn ends immediately.
+Otherwise, the selected word is incorrect and the turn ends immediately.
 
 ### Using the papers
-When a clue is given you note the word and number given in the tracker.
+At the start of a round you note down the word and number for the clue in the tracker.
 
 When a *correct* word is selected you circle it **both** in the upper and lower lists.
 
 When an *incorrect* word is selected you cross it off in only one list; the upper one if you are the guesser, the 
 lower ones if you are the clue giver.
 
-When a *black* word is selected you tear the paper up and start a new game.
+When a *black* word is selected you tear the paper up and start a new game...
 
-After a turn ends you also note down how many correct and incorrect words were found to keep track of progress and remind yourself of any remaining words not yet found.  
+After a turn ends you note down how many words were found and if any words remain, to keep track of progress.  
 
 ### Tracker table
 Each row is a turn and the columns are:
-1. Player (e.g. A/B or initials)
+1. Player giving the clue (e.g. A/B or initials).
 2. Clue word.
 3. Clue number.
-4. Correct words. The number of correct words found this turn.
+4. Correct words. The number of words found this turn.
 5. Incorrect words. Put a 1 if an incorrect word is selected.
 6. Remaining words. The number of words left to find from this clue.
       
@@ -70,7 +71,8 @@ Clue givers can't give any indication about whether a correct guess was the word
 It is legal to assign 0 for clue number. But your partner must still select at least one word.
                  
 #### Out of words
-If all of your target words have been found, tell your partner that there's no words left. Your partner will be the one giving clues on all remaining turns.
+If all of your target words have been found, you notify your partner, who will now be the one giving clues on all 
+remaining turns.
 
 #### Sudden death
 If players run out of turns they enter sudden death mode. No more clues can be given nor strategy discussed. Players make guesses in any order, one at a time, in an effort to find all words. Any mistake ends the game with a loss.
@@ -78,15 +80,15 @@ If players run out of turns they enter sudden death mode. No more clues can be g
 #### Word mixing
 The table at the top of the page shows you how the words are mixed between the two players. Use this knowledge to your advantage. For example, 3 of your 9 target words are also target words for your partner. This overlap is why you only need to find 15 words in total.
 
-Of the 3 words you have as black, one is also black for your partner. Another is a target word and one is unused. 
+Of your 3 black words, one is also black for your partner. Another is a target word and one is unused. 
 This means that one of your black words is a word you must select. Furthermore, if you have found the black word 
-that is a target word on the other side, you should not select the other two black words.
+that is a target word on the other side, you should not select any of the other two black words.
    
 #### Scoring
 Scoring is optional, but can be used to compare games with others.
 
 +2 points per target found, +10 per unused turn, -5 per mistake, -10 if sudden death.
-Games ended by a black word score differently: -10 points for each unused turn, mistake, and unfound target
+Games ended by a black word score differently: -10 points for each unused turn, mistake, and unfound target word.
 
 ## Settings
 Most settings should be fairly self-explanatory, the advanced ones might require some explanation:
