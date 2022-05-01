@@ -62,7 +62,8 @@
 
         .circle-text {
             font-size: 20pt;
-            font-weight: 700;
+            font-family: 'Nunito', sans-serif;
+            font-weight: 800;
             width: 1.5em;
             height: 1.5em;
             position: relative;
@@ -73,10 +74,7 @@
             user-select: none;
             -webkit-user-select: none;
             border-radius: 50%;
-            line-height: 1.5em;
-            display: inline-block;
-            grid-column: 1 / 1;
-            grid-row: 1 / 1;
+            line-height: 1.6em;
         }
 
         .header {
@@ -164,6 +162,10 @@
             padding-bottom: 0;
         }
 
+        #green {
+            margin-bottom: 0;
+        }
+        
         .green {
             border-width: 5pt;
             border-style: double;
@@ -177,6 +179,19 @@
             border-style: solid;
         }
 
+        .star {
+            position: relative;
+            margin-bottom: -18px;
+            width: 100%;
+            text-align: center;
+        }
+
+        .star span {
+            background: white;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+        
         .black div {
             font-size: 12pt;
             font-weight: 600;
@@ -832,7 +847,6 @@
                 <div class="key" id="key">
                 </div>
             </div>
-
             <div id="all" class="helptext">
                 Select words from here. Mark found words below as well. You and your partner need to find 15 out of 25 words in 9 turns.
             </div>
@@ -842,6 +856,9 @@
         <div class="left">
             <div id="green" class="helptext">
                 Give clues to these words. Mark found words above as well.
+            </div>
+            <div id="star" class="star">
+                <span class="material-icons-outlined">stars</span>
             </div>
             <div id="greenwords" class="words-container green">
             </div>
