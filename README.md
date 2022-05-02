@@ -113,6 +113,8 @@ Click on the tracker table cells to enter clues or toggle values.
 
 ## Troubleshooting
 ### Printing
+To make sure all page elements print out, enable the "background graphics" option.
+
 Chrome is recommended and known to produce correct pages. Safari seems to have issues with printing and can split up pages in weird ways.
 
 ## Acknowledgements
