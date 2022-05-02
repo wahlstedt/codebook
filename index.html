@@ -51,6 +51,7 @@
         .right {
             grid-area: right;
             margin-left: 10pt;
+            margin-top: 20pt;
         }
 
         .topgrid {
@@ -113,10 +114,14 @@
             align-items: center;
             border: 4pt solid black;
             border-radius: 40pt;
-            margin-bottom: 20pt;
             padding: 10pt 0;
+            margin-top: 20pt;
             user-select: none;
             -webkit-user-select: none;
+        }
+
+        #allwords {
+            margin-top: 0;
         }
 
         .words-container div {
@@ -146,10 +151,6 @@
             padding-top: 0;
             padding-bottom: 0;
         }
-
-        #green {
-            margin-bottom: 0;
-        }
         
         .green {
             border-width: 5pt;
@@ -167,7 +168,8 @@
         .star {
             position: relative;
             text-align: center;
-            margin-bottom: -18px;
+            margin-bottom: -46px;
+            margin-top: 14pt;
             width: 100%;
         }
 
@@ -179,7 +181,7 @@
             font-size: 12pt;
             font-weight: 600;
             flex-basis: auto;
-            padding: 4pt 10pt 4pt 10pt;
+            padding: 4pt 8pt;
             margin: 2pt;
             background-color: black;
             color: white;
@@ -197,9 +199,17 @@
             font-size: 9pt;
             text-align: center;
             font-weight: normal;
-            margin: 0 2pt 2pt 2pt;
+            margin-top: 1.5pt;
         }
 
+        #black {
+            margin-top: 0;
+        }
+
+        #blackwords {
+            margin-top: 18pt;
+        }
+        
         .helptext b {
             font-weight: 700;
         }
@@ -788,30 +798,30 @@
                 <div class="key" id="key">
                 </div>
             </div>
-            <div id="all" class="helptext">
-                Select words from here. Mark found words below as well. You and your partner need to find 15 out of 25 words in 9 turns.
-            </div>
             <div id="allwords" class="words-container">
+            </div>
+            <div id="all" class="helptext">
+                Select from these words. Mark found words below as well. You and your partner need to find 15 out of 25 words in 9 turns.
             </div>
         </div>
         <div class="left">
-            <div id="green" class="helptext">
-                Give clues to these words. Mark found words above as well.
-            </div>
             <div id="star" class="star">
                 <svg class="icon"><use href="#star"/></svg>
             </div>
             <div id="greenwords" class="words-container green">
             </div>
-            <div id="white" class="helptext">
-                If your partner selects one of these words, the turn ends.
+            <div id="green" class="helptext">
+                Give clues to these words. Mark found words above as well.
             </div>
             <div id="whitewords" class="words-container green white">
             </div>
-            <div id="black" class="helptext">
-                If your partner selects one of these words, the game is lost!
+            <div id="white" class="helptext">
+                If your partner selects one of these words, the turn ends.
             </div>
             <div id="blackwords" class="words-container black">
+            </div>
+            <div id="black" class="helptext">
+                If your partner selects one of these words, the game is lost!
             </div>
         </div>
         <div class="right">
