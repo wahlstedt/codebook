@@ -2,9 +2,10 @@
 A simple-to-use tool to generate pages you print out to play a fun cooperative wordgame.
 
 ## How to use
-- Download the html file either with git or use the [zip link](https://github.com/wahlstedt/codebook/archive/refs/heads/master.zip).
-- Open the html file in a browser, either your local copy or the one [online](http://wahlstedt.github.io/codebook/). 
-- Drag a textfile with words onto the page. Use one of the [included wordlists](https://github.com/wahlstedt/codebook/tree/master/wordlists) or your own.
+Use it [online](http://wahlstedt.github.io/codebook/), or locally by downloading via git or the [zip file](https://github.com/wahlstedt/codebook/archive/refs/heads/master.zip).
+
+Once open in a browser you select which wordlist you want to use from the dropdown menu, or drag local textfiles with words onto the page. Use one of the [included wordlists](https://githubcom/wahlstedt/codebook/tree/master/wordlists) or create your own.
+
 - Adjust the options to set the style and number of games to generate.
 - Print the pages from your browser, or save them as a pdf.
 - Play the game with friends!
@@ -93,17 +94,15 @@ Games ended by a black word score differently: -10 points for each unused turn, 
 ## Settings
 Most settings should be fairly self-explanatory, the advanced ones might require some explanation:
 
-### Game variants
+### Game configuration
 The standard game has 25 words, where each player has 9 target words and 3 black words, and you both need to find a total of 15 words in order to win.
-By using the advanced 
-settings you can create new variants by changing the number of words and their distribution.
+By using the game configuration you can create new variants by changing the number of words and their distribution.
 
 You do this by editing the numbers in the table of word combinations. There's 3 different word types: target words 
 (stars), unused words (empty circle) and black words (black circle). These can be combined in 9 ways, but since the 
 game is symmetric (both players have the same combinations) you can only adjust 6 values.
 
-The values for the combinations where the words are the same type for both players are set _in total_, while the other
-combinations are set with the number _per player_, in order to keep the game symmetric.
+The values for the combinations where the words are the same type for both players are set _in total_, while the other combinations are set with the number _per player_, in order to keep the game symmetric.
    
 ### Interactive mode
 The _first_ page is by default interactive to enable play on device. Click on words to toggle their status. Found 

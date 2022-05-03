@@ -7,7 +7,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Architects+Daughter&family=Mulish:wght@500;600;700&display=swap" rel="stylesheet">
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/github-fork-ribbon-css/0.2.3/gh-fork-ribbon.min.css" />
     <style>
         body {
             font-family: 'Mulish', Verdana, Geneva, sans-serif;
@@ -25,10 +25,16 @@
         }
 
         @media screen {
+            body {
+                background: lightgrey;
+            }
+
             .page {
                 border: 1px solid;
                 padding: 10mm;
                 margin: auto auto 50pt;
+                background: white;
+                box-shadow: 2px 2px 10px -3px;
             }
         }
 
@@ -172,10 +178,6 @@
             margin-top: 14pt;
             width: 100%;
         }
-
-        .star svg {
-            background: white;
-        }
         
         .black div {
             font-size: 12pt;
@@ -260,12 +262,12 @@
         .settings {
             display: grid;
             grid-row-gap: 5pt;
-            grid-template-columns: 1fr 1fr 1fr;
+            grid-template-columns: 1fr 1fr 1fr 1fr;
             grid-template-rows: auto;
             font-size: 12pt;
             text-align: center;
             border: 3pt dotted black;
-            background: lightskyblue;
+            background: linear-gradient(180deg, rgba(137,207,240,1) 35%, rgba(209,242,249,1) 100%);
             border-radius: 40pt;
             padding: 10pt 0;
             width: 210mm;
@@ -273,26 +275,34 @@
         }
 
         .settings .status {
-            grid-column-start: span 3;
+            grid-column-start: span 4;
             margin-bottom: 10pt;
+        }
+
+        .settings-wordlist {
+            grid-column: 2 / 4;
+        }
+
+        .settings-start {
+            grid-column-start: 2;
+        }
+
+        .settings-size {
+            grid-column-start: 1;
         }
 
         #seed {
             width: 4em;
         }
 
-        .setting-help {
-            align-self: end;
-        }
-
         .setting-interact {
             align-self: start;
-            grid-column: 3;
-            grid-row: 5;
+            grid-column: 4;
+            grid-row: 6;
         }
 
         .customizer {
-            grid-column: span 3;
+            grid-column: span 4;
             display: inline-grid;
             grid-template-columns: repeat(7, max-content);
             column-gap: 2pt;
@@ -328,16 +338,31 @@
             padding-top: 4pt;
         }
 
+        .customizer-title {
+            grid-column-start: span 7;
+            margin-bottom: 3pt;
+        }
+        
+        .customizer-symbol {
+            background: white;
+            padding-top: 3pt;
+            border: 1px black solid;
+        }
+
+        .customizer-turns-title {
+            align-self: end;
+            padding-left: 20pt;
+        }
+
         .setting-turns {
             align-self: center;
-            grid-row: 2;
+            grid-row: 3;
             grid-column: 7;
             padding-left: 20pt;
         }
 
-        .customizer-turns {
+        .setting-help {
             align-self: end;
-            padding-left: 20pt;
         }
 
         .advanced {
@@ -348,8 +373,7 @@
             cursor: pointer;
             user-select: none;
             -webkit-user-select: none;
-            grid-column: 2;
-            grid-row: 4;
+            grid-column: 2 / 4;
         }
 
         #expander {
@@ -386,7 +410,7 @@
         }
 
         @media print {
-            .settings, .settings * {
+            .github-fork-ribbon, .settings, .settings * {
                 display: none !important;
             }
         }
@@ -653,26 +677,40 @@
                 }
 
                 // Wait for all dropped files to be read, then collect the words
-                Promise.all(promises).then((results) => {
-                    for (const txt of results) {
-                        // split() makes each line an array item. filter() removes empty lines.
-                        allWords.push(...txt.split(/\r?\n/).filter(Boolean).map(w => w.toUpperCase()));
-                    }
-                    // Remove duplicates
-                    allWords = [...new Set(allWords)];
-                    const len = allWords.length;
-                    console.log(`Loaded ${len} words`);
-                    if (len < 25) throw new RangeError("Need at least 25 words!");
-                    document.getElementById("status").innerHTML = `${len} words loaded. <a href='javascript:window.print()'>Click here</a> to print or save as PDF.`;
-                    renderAll();
-                });
+                Promise.all(promises).then((results) => addWordlists(results));
             }
+        }
+
+        function addWordlists(lists) {
+            for (const txt of lists) {
+                // split() makes each line an array item. filter() removes empty lines.
+                allWords.push(...txt.split(/\r?\n/).filter(Boolean).map(w => w.toUpperCase()));
+            }
+            // Remove duplicates
+            allWords = [...new Set(allWords)];
+            const len = allWords.length;
+            console.log(`Loaded ${len} words`);
+            if (len < 25) throw new RangeError("Need at least 25 words!");
+            document.getElementById("status").innerHTML = `${len} words loaded. <a href='javascript:window.print()'>Click here</a> to print or save as PDF.`;
+            renderAll();
         }
 
         // Called when a form element changes
         function onChange(ev) {
-            // Ignore events from the interactive text input - otherwise it's from settings and we need to re-render all pages
-            if (!ev.target.classList.contains("js-tracker-clue")) renderAll();
+            // Ignore events from the interactive text input
+            if (ev.target.classList.contains("js-tracker-clue")) return;
+
+            // Is it a wordlist load?
+            if (ev.target.id === "wordlist") {
+                fetch(`https://raw.githubusercontent.com/wahlstedt/codebook/master/wordlists/${ev.target.value}.txt`).then(r =>r.text()).then(result => {
+                    allWords = [];
+                    addWordlists([result]);
+                });
+                return;
+            }
+
+            // A setting has changed and we need to re-render all pages
+            renderAll();
         }
         
         // Called when the customizer form is reset
@@ -845,7 +883,7 @@
 
 <body>
 <svg style="display:none">
-    <symbol id="star" viewBox="0 0 24 24" fill="#000000"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zm7.48 7.16l-5.01-.43-2-4.71c3.21.19 5.91 2.27 7.01 5.14zm-5.07 6.26L12 13.98l-2.39 1.44.63-2.72-2.11-1.83 2.78-.24L12 8.06l1.09 2.56 2.78.24-2.11 1.83.64 2.73zm-2.86-11.4l-2 4.72-5.02.43c1.1-2.88 3.8-4.97 7.02-5.15zM4 12c0-.64.08-1.26.23-1.86l3.79 3.28-1.11 4.75C5.13 16.7 4 14.48 4 12zm3.84 6.82L12 16.31l4.16 2.5c-1.22.75-2.64 1.19-4.17 1.19-1.52 0-2.94-.44-4.15-1.18zm9.25-.65l-1.11-4.75 3.79-3.28c.14.59.23 1.22.23 1.86 0 2.48-1.14 4.7-2.91 6.17z"/></symbol>
+    <symbol id="star" viewBox="0 0 24 24" fill="#000000"><ellipse fill="white" ry="12" rx="12" id="back" cy="12" cx="12"/><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zm7.48 7.16l-5.01-.43-2-4.71c3.21.19 5.91 2.27 7.01 5.14zm-5.07 6.26L12 13.98l-2.39 1.44.63-2.72-2.11-1.83 2.78-.24L12 8.06l1.09 2.56 2.78.24-2.11 1.83.64 2.73zm-2.86-11.4l-2 4.72-5.02.43c1.1-2.88 3.8-4.97 7.02-5.15zM4 12c0-.64.08-1.26.23-1.86l3.79 3.28-1.11 4.75C5.13 16.7 4 14.48 4 12zm3.84 6.82L12 16.31l4.16 2.5c-1.22.75-2.64 1.19-4.17 1.19-1.52 0-2.94-.44-4.15-1.18zm9.25-.65l-1.11-4.75 3.79-3.28c.14.59.23 1.22.23 1.86 0 2.48-1.14 4.7-2.91 6.17z"/></symbol>
     <symbol id="white" viewBox="0 0 24 24" fill="#000000"><path d="M12,2C6.47,2,2,6.47,2,12c0,5.53,4.47,10,10,10s10-4.47,10-10C22,6.47,17.53,2,12,2z M12,20c-4.42,0-8-3.58-8-8 c0-4.42,3.58-8,8-8s8,3.58,8,8C20,16.42,16.42,20,12,20z"/></symbol>
     <symbol id="black" viewBox="0 0 24 24" fill="#000000"><path d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2z"/></symbol>
     <symbol id="arrows" viewBox="0 0 24 24"  fill="#000000"><polygon points="13,6.99 16,6.99 12,3 8,6.99 11,6.99 11,17.01 8,17.01 12,21 16,17.01 13,17.01"/></symbol>
@@ -853,12 +891,88 @@
     <symbol id="circle-B" viewBox="0 0 512 512"><path d="M292 280H208v56h84C307.4 336 320 323.4 320 308S307.4 280 292 280zM304 204c0-15.44-12.56-28-28-28H208v56h68C291.4 232 304 219.4 304 204zM256 0C114.6 0 0 114.6 0 256s114.6 256 256 256s256-114.6 256-256S397.4 0 256 0zM292 384H184C170.8 384 160 373.3 160 360v-208C160 138.8 170.8 128 184 128h92C317.9 128 352 162.1 352 204c0 16.35-5.301 31.41-14.12 43.82C356.1 261.7 368 283.4 368 308C368 349.9 333.9 384 292 384z"/></symbol>
   </svg>
 
+<a class="github-fork-ribbon" href="https://github.com/wahlstedt/codebook" data-ribbon="Fork me on GitHub" title="Fork me on GitHub">Fork me on GitHub</a>
+
 <div class="settings">
    <div id="status" class="status">Drop one or more textfiles on this window to generate game pages.</div>
-    <div>Start ID<br>
+
+    <div class="settings-wordlist">Wordlist<br>
+        <select name="wordlist" id="wordlist">
+            <option value="en"></option>
+            <optgroup label="English">
+            <option value="en">English</option>
+            <option value="e_duet">English DUET</option>
+            <option value="en_undercover_v2">English Undercover</option>
+            </optgroup>
+            <option value="af">Afrikaans</option>
+            <option value="sq">Albanian</option>
+            <option value="ar">Arabic</option>
+            <option value="ar-lb">Arabic (Lebanon)</option>
+            <option value="bg">Bulgarian</option>
+            <option value="bg_duet">Bulgarian DUET</option>
+            <option value="ca">Catalan</option>
+            <option value="zh">Chinese</option>
+            <option value="cz">Czech</option>
+            <option value="cz_duet">Czech DUET</option>
+            <option value="dk">Danish</option>
+            <option value="dk_duet">Danish DUET</option>
+            <option value="nl">Dutch</option>
+            <option value="nl_duet">Dutch DUET</option>
+            <option value="eo">Esperanto</option>
+            <option value="et">Estonian</option>
+            <option value="fi">Finish</option>
+            <option value="fi_duet">Finish DUET</option>
+            <option value="fr">French</option>
+            <option value="fr_duet">French DUET</option>
+            <option value="de">German</option>
+            <option value="de_duet">German DUET</option>
+            <option value="gr">Greek</option>
+            <option value="gr_duet">Greek DUET</option>
+            <option value="he">Hebrew</option>
+            <option value="he_duet">Hebrew DUET</option>
+            <option value="hu">Hungarian</option>
+            <option value="is">Icelandic</option>
+            <option value="id">Indonesian</option>
+            <option value="it">Italian</option>
+            <option value="it_duet">Italian DUET</option>
+            <option value="jp">Japanese</option>
+            <option value="jp_duet">Japanese DUET</option>
+            <option value="ko">Korean</option>
+            <option value="ko_duet">Korean DUET</option>
+            <option value="lv">Latvian</option>
+            <option value="lt">Lithuanian</option>
+            <option value="mk">Macedonian</option>
+            <option value="no">Norwegian</option>
+            <option value="no_duet">Norwegian DUET</option>
+            <option value="fa">Persian</option>
+            <option value="pl">Polish</option>
+            <option value="pl_duet">Polish DUET</option>
+            <option value="pt">Portuguese</option>
+            <option value="pt_duet">Portuguese DUET</option>
+            <option value="ro">Romanian</option>
+            <option value="ro_duet">Romanian DUET</option>
+            <option value="ru">Russian</option>
+            <option value="ru_duet">Russian</option>
+            <option value="sr">Serbian</option>
+            <option value="sk">Slovak</option>
+            <option value="sk_duet">Slovak DUET</option>
+            <option value="sl">Slovenian</option>
+            <option value="es">Spanish</option>
+            <option value="es_duet">Spanish DUET</option>
+            <option value="sv">Swedish</option>
+            <option value="sv_duet">Swedish DUET</option>
+            <option value="th">Thai</option>
+            <option value="tl">Tagalog</option>
+            <option value="tr">Turkish</option>
+            <option value="uk">Ukrainian</option>
+        </select>
+    </div>
+
+    <div class="settings-start">Start ID<br>
         <input type="number" id="seed" name="seed" min="0" max="99999" step="10" value="1">
     </div>
-    <div>Number of games<br>
+
+    <div class="settings-games">Number of games<br>
         <select name="games" id="games">
             <option selected>1</option>
             <option>5</option>
@@ -868,22 +982,17 @@
             <option>100</option>
         </select>
     </div>
+    
+    <div class="expand" onclick="onExpand()">Advanced settings <span id="expander" class="material-icons">expand_more</span></div>
 
-    <div>Language<br>
-        <select name="lang" id="lang">
-            <option value="en">English</option>
-            <option value="sv">Swedish</option>
-        </select>
-    </div>
-
-    <div>Page size<br>
+    <div class="settings-size advanced">Page size<br>
         <select name="size" id="size">
             <option value="A4">A4</option>
             <option value="letter">US Letter</option>
         </select>
     </div>
 
-    <div>Pages<br>
+    <div class="settings-page advanced">Pages<br>
         <select name="page" id="page">
             <option>Both</option>
             <option value="A">Only A</option>
@@ -891,41 +1000,45 @@
         </select>
     </div>
 
-    <div class="setting-help">
-        <input type="checkbox" id="help" name="help" checked>
+    <div class="settings-lang advanced">Language<br>
+        <select name="lang" id="lang">
+            <option value="en">English</option>
+            <option value="sv">Swedish</option>
+        </select>
+    </div>
+
+    <div class="setting-help advanced"><input type="checkbox" id="help" name="help" checked>
         <label for="help">Include help texts</label>
     </div>
-    
-    <div class="expand" onclick="onExpand()">Advanced settings <span id="expander" class="material-icons">expand_more</span></div>
-
     <div class="customizer advanced">
+        <div class="customizer-title">Game configuration</div>
         <form>
-            <div>
+            <div class="customizer-symbol">
                 <svg class="icon"><use href="#white"/></svg><br>
                 <svg class="icon"><use href="#white"/></svg>
             </div>
-            <div>
+            <div class="customizer-symbol">
                 <svg class="icon"><use href="#star"/></svg><br>
                 <svg class="icon"><use href="#star"/></svg>
             </div>
-            <div>
+            <div class="customizer-symbol">
                 <svg class="icon"><use href="#black"/></svg><br>
                 <svg class="icon"><use href="#black"/></svg>
             </div>
-            <div>
+            <div class="customizer-symbol">
                 <svg class="icon"><use href="#black"/></svg><br>
                 <svg class="icon"><use href="#white"/></svg>
             </div>
-            <div>
+            <div class="customizer-symbol">
                 <svg class="icon"><use href="#black"/></svg><br>
                 <svg class="icon"><use href="#star"/></svg>
             </div>
-            <div>
+            <div class="customizer-symbol">
                 <svg class="icon"><use href="#star"/></svg><br>
                 <svg class="icon"><use href="#white"/></svg>
             </div>
 
-            <div class="customizer-turns">Turns</div>
+            <div class="customizer-turns-title">Turns</div>
 
             <div class="customizer-start-col">
                 <input type="number" id="00" min="0" max="20" value="7">
