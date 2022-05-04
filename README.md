@@ -114,7 +114,12 @@ Click on the tracker table cells to enter clues or toggle values.
 ### Printing
 To make sure all page elements print out, enable the "background graphics" option.
 
-Chrome is recommended and known to produce correct pages. Safari seems to have issues with printing and can split up pages in weird ways.
+Safari seems to have issues with printing and can split up pages in weird ways.
+
+### Browser support
+Chrome is recommended and tested to produce printable pages.
+
+Layouts will not work properly in Safari versions prior to v15.
 
 ## Acknowledgements
 Inspired by [cnpaperplay](https://github.com/dcmouser/cnpaperplay) which in turn is based on the boardgame 

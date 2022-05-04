@@ -9,9 +9,22 @@
     <link href="https://fonts.googleapis.com/css2?family=Architects+Daughter&family=Mulish:wght@500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/github-fork-ribbon-css/0.2.3/gh-fork-ribbon.min.css" />
     <style>
+
+        html {
+            font-size: 10pt;
+        }
+
+        /* Test to support A5 paper - messes up US Letter printing for some reason... */
+        /* 146mm works - 147 breaks */
+        /* @media (max-height: 148mm) {
+            html {
+                font-size: 7pt;
+            }
+        }
+        */
+        
         body {
             font-family: 'Mulish', Verdana, Geneva, sans-serif;
-            font-size: 9pt;
         }
 
         .page {
@@ -19,32 +32,41 @@
             grid-template-columns: 1fr 1fr;
             grid-template-rows: 1fr auto auto;
             grid-template-areas: "top top" "left right";
-            height: 297mm; /* Safari cuts off pages when printing, 294mm works... */
-            width: 210mm;
+            width: 100%;
+            aspect-ratio: 210 / 297;
+            overflow: hidden;
             break-after: page; /* Splits up each page for printing */
         }
 
+        .js-letter {
+            aspect-ratio: 85 / 110;
+        }
+        
         @media screen {
+            html {
+                font-size: 1.3vw; /* Makes page previews responsive */
+            }
+
             body {
                 background: lightgrey;
             }
 
             .page {
                 border: 1px solid;
-                padding: 10mm;
-                width: 190mm;
-                height: 277mm;
-                margin: auto auto 50pt;
+                width: 80%;
+                padding: 4rem; /* Simulates print page margins */
+                margin: auto auto 5%;
                 background: white;
                 box-shadow: 2px 2px 10px -3px;
             }
         }
 
-        .js-letter {
-            height: 11in;
-            width: 8.5in;
+        @media print {
+            .github-fork-ribbon, .settings, .settings * {
+                display: none !important;
+            }
         }
-        
+
         .top {
             grid-area: top;
             display: flex; /* To make the words container take up remaining space */
@@ -58,20 +80,20 @@
 
         .right {
             grid-area: right;
-            margin-left: 10pt;
-            margin-top: 20pt;
+            margin-left: 1rem;
+            margin-top: 2rem;
         }
 
         .topgrid {
             display: grid;
-            grid-template-columns: 80pt 1fr 80pt;
+            grid-template-columns: 8rem 1fr 8rem;
             grid-template-rows: auto;
-            margin-bottom: 10pt;
+            margin-bottom: 1rem;
         }
 
         .player {
-            width: 24pt;
-            height: 24pt;
+            width: 2.4rem;
+            height: 2.4rem;
         }
 
         .header {
@@ -85,21 +107,22 @@
 
         .header p {
             margin: 0;
-            letter-spacing: 2pt;
+            font-size: 0.8rem;
+            letter-spacing: 0.2rem;
         }
 
         .title {
             font-weight: 500;
-            font-size: 24px;
-            padding: 0 2pt;
+            font-size: 1.8rem;
+            padding: 0 0.2rem;
             text-align: center;
             position: relative;
-            top: -2.5pt;
+            top: -.25rem;
         }
 
         .gameid {
             font-weight: 500;
-            font-size: 18pt;
+            font-size: 1.8rem;
             text-align: right;
             grid-column: 3;
             grid-row: 1;
@@ -108,9 +131,8 @@
         .key {
             place-self: center;
             width: 100%;
-            max-height: 68px;
+            max-height: 5rem; /* Optimally 68px */
             grid-column: span 3;
-            grid-row: 2;
         }
 
         .words-container {
@@ -120,10 +142,10 @@
             flex-wrap: wrap;
             align-content: stretch;
             align-items: center;
-            border: 4pt solid black;
-            border-radius: 40pt;
-            padding: 10pt 0;
-            margin-top: 20pt;
+            border: 0.4rem solid black;
+            border-radius: 4rem;
+            padding: 1rem 0;
+            margin-top: 2rem;
             user-select: none;
             -webkit-user-select: none;
         }
@@ -134,24 +156,24 @@
 
         .words-container div {
             flex: 1;
-            font-size: 14pt;
+            font-size: 1.5rem;
             font-weight: 700;
             text-align: center;
             box-sizing: border-box;
-            flex-basis: calc(20% - 6pt); /* Some leeway to allow for the border in interactive mode */
-            padding: 0 6pt;
+            flex-basis: calc(20% - 0.6rem); /* Some leeway to allow for the border in interactive mode */
+            padding: 0 0.6rem;
         }
 
         .words-container .js-strike { /* Using longhand format because Safari doesn't have the shorthand */
-            text-decoration-thickness: 3pt;
+            text-decoration-thickness: 0.3rem;
             text-decoration-line: line-through;
             text-decoration-color: red;
         }
 
         .words-container .js-circle {
-            border: 3pt green solid;
-            border-radius: 16pt;
-            padding: 0 4pt;
+            border: 0.3rem green solid;
+            border-radius: 1.6rem;
+            padding: 0 .4rem;
         }
 
         .black {
@@ -161,49 +183,48 @@
         }
         
         .green {
-            border-width: 5pt;
+            border-width: 0.5rem;
             border-style: double;
-            border-radius: 20pt;
-            padding-top: 5pt;
-            padding-bottom: 5pt;
+            border-radius: 2rem;
+            padding-top: 0.5rem;
+            padding-bottom: 0.5rem;
         }
 
         .white {
-            border-width: 2pt;
+            border-width: 0.2rem;
             border-style: solid;
         }
 
         .star {
             position: relative;
             text-align: center;
-            margin-bottom: -46px;
-            margin-top: 14pt;
-            width: 100%;
+            margin-bottom: -3.4rem;
+            margin-top: 1.4rem;
         }
         
         .black div {
-            font-size: 12pt;
+            font-size: 1.2rem;
             font-weight: 600;
             flex-basis: auto;
-            padding: 4pt 8pt;
-            margin: 2pt;
+            padding: 0.4rem 0.8rem;
+            margin: 0.2rem;
             background-color: black;
             color: white;
         }
 
         .green div {
-            font-size: 12pt;
+            font-size: 1.2rem;
             font-weight: 700;
-            flex-basis: calc(33% - 8pt);
-            padding: 4pt 0;
-            margin: 2pt;
+            flex-basis: calc(33% - 0.8rem);
+            padding: 0.4rem 0;
+            margin: 0.2rem;
         }
 
         .helptext {
-            font-size: 9pt;
+            font-size: 0.9rem;
             text-align: center;
             font-weight: normal;
-            margin-top: 1.5pt;
+            margin-top: 0.15rem;
         }
 
         #black {
@@ -211,7 +232,7 @@
         }
 
         #blackwords {
-            margin-top: 18pt;
+            margin-top: 1.8rem;
         }
         
         .helptext b {
@@ -226,8 +247,8 @@
 
         .tracker th {
             border: 1px solid black;
-            width: 20pt;
-            font-size: 12pt;
+            width: 2rem;
+            font-size: 1.2rem;
             font-weight: normal;
             vertical-align: bottom;
             user-select: none;
@@ -237,16 +258,16 @@
         .tracker th:nth-child(2) {
             width: auto;
             text-align: left;
-            padding-left: 6pt;
-            padding-bottom: 4pt;
+            padding-left: 0.6rem;
+            padding-bottom: 0.4rem;
         }
 
         .tracker thead tr {
-            height: 25pt;
+            height: 2.5rem;
         }
 
         .tracker tr {
-            height: 32pt;
+            height: 3.2rem;
         }
 
         .tracker td {
@@ -263,17 +284,16 @@
 
         .settings {
             display: grid;
-            grid-row-gap: 5pt;
+            grid-row-gap: 6px;
             grid-template-columns: 1fr 1fr 1fr 1fr;
             grid-template-rows: auto;
-            font-size: 12pt;
+            font-size: 16px;
             text-align: center;
-            border: 3pt dotted black;
+            border: 4px dotted black;
             background: linear-gradient(180deg, rgba(137,207,240,1) 35%, rgba(209,242,249,1) 100%);
-            border-radius: 40pt;
-            padding: 10pt 0;
-            width: 210mm;
-            margin: auto auto 20pt;
+            border-radius: 24px;
+            padding: 12px 0;
+            margin: 0 10px 30px;
         }
 
         #seed {
@@ -282,7 +302,7 @@
 
         .settings .status {
             grid-column-start: span 4;
-            margin-bottom: 10pt;
+            margin-bottom: 12px;
         }
 
         .settings-wordlist {
@@ -310,14 +330,14 @@
             align-self: center;
             grid-row: 3;
             grid-column: 7;
-            padding-left: 20pt;
+            padding-left: 28px;
         }
 
         .customizer {
             grid-column: span 4;
             display: inline-grid;
             grid-template-columns: repeat(7, max-content);
-            column-gap: 2pt;
+            column-gap: 3px;
             margin: auto; /* Center the table in the setting grid cell */
         }
 
@@ -330,40 +350,40 @@
             margin: 2px 4px 4px;
             border: 1px solid black;
             border-top: none;
-            height: 5pt;
+            height: 8px;
         }
 
         .customizer-info {
             grid-column: span 3;
-            font-size: 10pt;
+            font-size: 0.9em;
             position: relative;
-            top: -3pt;
+            top: -5px;
         }
 
         .customizer input[type="number"] {
-            font-size: 12pt;
+            font-size: 16px;
             max-width: 3em;
         }
         
         .customizer-reset {
             grid-column: 1 / -1;
-            padding-top: 4pt;
+            padding-top: 6px;
         }
 
         .customizer-title {
             grid-column-start: span 7;
-            margin-bottom: 3pt;
+            margin-bottom: 4px;
         }
         
         .customizer-symbol {
             background: white;
-            padding-top: 3pt;
+            padding-top: 4px;
             border: 1px black solid;
         }
 
         .customizer-turns-title {
             align-self: end;
-            padding-left: 20pt;
+            padding-left: 25px;
         }
 
         .advanced {
@@ -387,7 +407,7 @@
         }
 
         .tracker-text {
-            font-size: 18pt;
+            font-size: 1.8rem;
             font-family: 'Architects Daughter', cursive;
             text-transform: uppercase;
             border: 0;
@@ -406,14 +426,12 @@
         }
 
         .icon {
-            width: 24px;
-            height: 24px;
+            width: 1.8rem;
+            height: 1.8rem;
         }
 
-        @media print {
-            .github-fork-ribbon, .settings, .settings * {
-                display: none !important;
-            }
+        .material-icons {
+            font-size: 1.8rem;
         }
 
     </style>
@@ -443,7 +461,7 @@
             }, false);
             document.addEventListener("drop", onDrop);
 
-            // We need to recreate everything whenever a setting is changed
+            // Listen to the settings inputs
             document.addEventListener("change", onChange);
             // Special handling of the reset button, so we can access the reset values immediately
             document.body.querySelector(".customizer-reset input").addEventListener("click", onReset);
@@ -488,13 +506,18 @@
                 // Only add interactivity to the first page
                 const page = document.body.querySelector(".page");
 
-                // Insert the text inputs to the clue column
-                const col2 = page.querySelectorAll("tbody tr td:nth-child(2)");
-                col2.forEach(el => {
-                    const input = document.createElement("input");
-                    input.type = "text";
-                    input.className = "tracker-text js-tracker-clue";
-                    el.appendChild(input);
+                const col2 = page.querySelectorAll("tbody tr td");
+                col2.forEach((el, key) => {
+                    if ((key % 6) === 1) {
+                        // Insert the text inputs to the clue column
+                        const input = document.createElement("input");
+                        input.type = "text";
+                        input.className = "tracker-text js-tracker-clue";
+                        el.appendChild(input);
+                    } else {
+                        // The other cells gets a pointer cursor to hint at the interactivity
+                        el.style.cursor = "pointer";
+                    }
                 });
 
                 // Add event handler to catch word clicks (except the black words, they shouldn't be marked manually)
@@ -634,8 +657,7 @@
         // Creates the svg for the key table
         function buildKey(deck) {
             const lookup = ["white", "star", "black"]; // SVG symbol ids
-            let html = "";
-            let col = 0;
+            let html = "", col = 0;
             for (const type of deck) {
                 for (let n = 0; n < type[2]; n++) {
                     // Height & width are needed for Safari (it adheres to the specs)
@@ -703,7 +725,7 @@
 
             // Is it a wordlist load?
             if (ev.target.id === "wordlist") {
-                fetch(`https://raw.githubusercontent.com/wahlstedt/codebook/master/wordlists/${ev.target.value}.txt`).then(r =>r.text()).then(result => {
+                fetch(`https://raw.githubusercontent.com/wahlstedt/codebook/master/wordlists/${ev.target.value}.txt`, {cache: "force-cache"}).then(r =>r.text()).then(result => {
                     allWords = [];
                     addWordlists([result]);
                 });
@@ -822,7 +844,7 @@
                 <svg class="player"><use href="#circle-A"/></svg>
                 <div class="header">
                     <span class="title">C</span>
-                    <svg class="icon"><use href="#white"/><use href="#black" x="8" width="8"/></svg>
+                    <svg class="icon"><use href="#white"/><use href="#black" x="33%" width="33%"/></svg>
                     <span class="title">D</span>
                     <span class="title">E</span>
                     <span class="title">B</span>
@@ -844,7 +866,7 @@
             </div>
         </div>
         <div class="left">
-            <div id="star" class="star">
+            <div class="star">
                 <svg class="icon"><use href="#star"/></svg>
             </div>
             <div id="greenwords" class="words-container green">
@@ -890,7 +912,7 @@
     <symbol id="arrows" viewBox="0 0 24 24"  fill="#000000"><polygon points="13,6.99 16,6.99 12,3 8,6.99 11,6.99 11,17.01 8,17.01 12,21 16,17.01 13,17.01"/></symbol>
     <symbol id="circle-A" viewBox="0 0 512 512"><path d="M256 0C114.6 0 0 114.6 0 256s114.6 256 256 256s256-114.6 256-256S397.4 0 256 0zM362.1 365.8c-3.266 1.506-6.687 2.229-10.05 2.229c-9.078 0-17.75-5.18-21.81-14l-12.03-26.18H193.8l-12.03 26.18c-5.576 12.09-19.76 17.36-31.86 11.77c-12.03-5.559-17.28-19.91-11.73-31.99l95.99-208.1c7.842-17.08 35.75-17.08 43.59 0l95.99 208.1C379.3 345.9 374.1 360.2 362.1 365.8zM215.1 279.6h80.05L256 192.5L215.1 279.6z"/></symbol>
     <symbol id="circle-B" viewBox="0 0 512 512"><path d="M292 280H208v56h84C307.4 336 320 323.4 320 308S307.4 280 292 280zM304 204c0-15.44-12.56-28-28-28H208v56h68C291.4 232 304 219.4 304 204zM256 0C114.6 0 0 114.6 0 256s114.6 256 256 256s256-114.6 256-256S397.4 0 256 0zM292 384H184C170.8 384 160 373.3 160 360v-208C160 138.8 170.8 128 184 128h92C317.9 128 352 162.1 352 204c0 16.35-5.301 31.41-14.12 43.82C356.1 261.7 368 283.4 368 308C368 349.9 333.9 384 292 384z"/></symbol>
-  </svg>
+</svg>
 
 <a class="github-fork-ribbon" href="https://github.com/wahlstedt/codebook" data-ribbon="Fork me on GitHub" title="Fork me on GitHub">Fork me on GitHub</a>
 
@@ -921,6 +943,7 @@
             <option value="nl_duet">Dutch DUET</option>
             <option value="eo">Esperanto</option>
             <option value="et">Estonian</option>
+            <option value="tl">Filipino</option>
             <option value="fi">Finish</option>
             <option value="fi_duet">Finish DUET</option>
             <option value="fr">French</option>
@@ -953,7 +976,7 @@
             <option value="ro">Romanian</option>
             <option value="ro_duet">Romanian DUET</option>
             <option value="ru">Russian</option>
-            <option value="ru_duet">Russian</option>
+            <option value="ru_duet">Russian DUET</option>
             <option value="sr">Serbian</option>
             <option value="sk">Slovak</option>
             <option value="sk_duet">Slovak DUET</option>
@@ -963,14 +986,13 @@
             <option value="sv">Swedish</option>
             <option value="sv_duet">Swedish DUET</option>
             <option value="th">Thai</option>
-            <option value="tl">Tagalog</option>
             <option value="tr">Turkish</option>
             <option value="uk">Ukrainian</option>
         </select>
     </div>
 
     <div class="settings-start">Start ID<br>
-        <input type="number" id="seed" name="seed" min="0" max="99999" step="10" value="1">
+        <input type="number" id="seed" name="seed" min="0" max="99999" value="1">
     </div>
 
     <div class="settings-games">Number of games<br>
