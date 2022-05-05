@@ -79,6 +79,8 @@ remaining turns.
 If players run out of turns they enter sudden death mode. No more clues can be given nor strategy discussed. Players make guesses in any order, one at a time, in an effort to find all words. Any mistake ends the game with a loss.
 
 #### Word mixing
+![Key table](https://user-images.githubusercontent.com/1794720/166894893-54299a48-ed4f-4cee-89a0-454e75a22784.png)
+
 The table at the top of the page shows you how the words are mixed between the two players. Use this knowledge to your advantage. For example, 3 of your 9 target words are also target words for your partner. This overlap is why you only need to find 15 words in total.
 
 Of your 3 black words, one is also black for your partner. Another is a target word and one is unused. 
