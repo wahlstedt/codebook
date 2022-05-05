@@ -283,10 +283,7 @@
         }
 
         .settings {
-            display: grid;
-            grid-row-gap: 6px;
-            grid-template-columns: 1fr 1fr 1fr 1fr;
-            grid-template-rows: auto;
+            display: block;
             font-size: 16px;
             text-align: center;
             border: 4px dotted black;
@@ -301,31 +298,30 @@
         }
 
         .settings .status {
-            grid-column-start: span 4;
             margin-bottom: 12px;
         }
 
         .settings-wordlist {
-            grid-column: 2 / 4;
+            margin-bottom: 10px;
         }
-
-        .settings-start {
-            grid-column-start: 2;
-        }
-
+        
         .settings-row {
-            grid-column: span 4;
             display: flex;
+            justify-content: center;
+            gap: 10%;
+        }
+
+        .settings-checkboxes {
+            display: flex;
+            flex-direction: column;
             justify-content: space-evenly;
+            text-align: left;
         }
 
-        .settings-help {
-            grid-column-start: 2;
+        .settings-size {
+            margin-bottom: 15px;
         }
-
-        .settings-interact {
-        }
-
+        
         .setting-turns {
             align-self: center;
             grid-row: 3;
@@ -334,11 +330,10 @@
         }
 
         .customizer {
-            grid-column: span 4;
             display: inline-grid;
             grid-template-columns: repeat(7, max-content);
             column-gap: 3px;
-            margin: auto; /* Center the table in the setting grid cell */
+            margin: 15px auto auto;
         }
 
         .customizer-start-col {
@@ -391,6 +386,8 @@
         }
 
         .expand {
+            margin-top: 10px;
+            margin-bottom: 5px;
             cursor: pointer;
             user-select: none;
             -webkit-user-select: none;
@@ -751,7 +748,7 @@
             const caret = document.getElementById("expander");
             for (let element of items) {
                 if (window.getComputedStyle(element).display === "none") {
-                    element.style.display = element.classList.contains("customizer") ? "grid" : "block"; // Hacky...
+                    element.style.display = "block"; // Hacky...
                     caret.textContent = "expand_less";
                 } else {
                     element.style.display = "none";
@@ -991,32 +988,12 @@
         </select>
     </div>
 
-    <div class="settings-start">Start ID<br>
-        <input type="number" id="seed" name="seed" min="0" max="99999" value="1">
-    </div>
-
-    <div class="settings-games">Number of games<br>
-        <select name="games" id="games">
-            <option selected>1</option>
-            <option>5</option>
-            <option>10</option>
-            <option>25</option>
-            <option>50</option>
-            <option>100</option>
-        </select>
-    </div>
-    
-    <div class="expand" onclick="onExpand()">Advanced settings <span id="expander" class="material-icons">expand_more</span></div>
-
     <div class="settings-row">
-        <div class="settings-size advanced">Page size<br>
-            <select name="size" id="size">
-                <option value="A4">A4</option>
-                <option value="letter">US Letter</option>
-            </select>
+        <div class="settings-start">Start ID<br>
+            <input type="number" id="seed" name="seed" min="0" max="99999" value="1">
         </div>
 
-        <div class="settings-page advanced">Pages<br>
+        <div class="settings-page">Pages<br>
             <select name="page" id="page">
                 <option>Both</option>
                 <option value="A">Only A</option>
@@ -1024,24 +1001,50 @@
             </select>
         </div>
 
-        <div class="settings-lang advanced">Language<br>
-            <select name="lang" id="lang">
-                <option value="en">English</option>
-                <option value="sv">Swedish</option>
+        <div class="settings-games">Number of games<br>
+            <select name="games" id="games">
+                <option selected>1</option>
+                <option>5</option>
+                <option>10</option>
+                <option>25</option>
+                <option>50</option>
+                <option>100</option>
             </select>
         </div>
     </div>
 
-    <div class="settings-help advanced"><input type="checkbox" id="help" name="help" checked>
-        <label for="help">Help texts</label>
+    <div class="expand" onclick="onExpand()">Advanced settings <span id="expander" class="material-icons">expand_more</span></div>
+    <div class="advanced">
+    <div class="settings-row">
+        <div>
+            <div class="settings-size">Page size<br>
+                <select name="size" id="size">
+                    <option value="A4">A4</option>
+                    <option value="letter">US Letter</option>
+                </select>
+            </div>
+
+            <div>Language<br>
+                <select name="lang" id="lang">
+                    <option value="en">English</option>
+                    <option value="sv">Swedish</option>
+                </select>
+            </div>
+        </div>
+        
+        <div class="settings-checkboxes">
+            <div><input type="checkbox" id="help" name="help" checked>
+                <label for="help">Help texts</label>
+            </div>
+
+            <div>
+                <input type="checkbox" id="interactive" name="interactive" checked>
+                <label for="interactive">Interactive</label>
+            </div>
+        </div>
     </div>
 
-    <div class="settings-interact advanced">
-        <input type="checkbox" id="interactive" name="interactive" checked>
-        <label for="interactive">Interactive</label>
-    </div>
-
-    <div class="customizer advanced">
+    <div class="customizer">
         <div class="customizer-title">Game configuration</div>
         <form>
             <div class="customizer-symbol">
@@ -1108,6 +1111,7 @@
                 <input type="reset">
             </div>
         </form>
+    </div>
     </div>
 </div>
 

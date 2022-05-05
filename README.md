@@ -18,17 +18,26 @@ It is a cooperative wordgame for two or more players where the game gives you wo
 A clue is only one word, but it can point to multiple words that you want your partner to select. You and your partner 
 take turns giving clues and selecting words. If you find all the words before you run out of turns, you both win.
 
-Each player has their own page with the same selection of words, but mixed up differently. The large section on top is 
-the list of all the words and is the same for both players. The smaller list below with the double outline contains 
-the target words you want your partner to select. The list below that, with the single outline, are words you want 
-your partner to avoid. Finally, the black words at the bottom are words that your partner absolutely must not select because if that happens, you both lose the game!
-       
+### Page layout
+Each player has their own page with the same selection of words, but mixed up differently. The circled letter in the 
+top left **(1)** tells you which player's page it is. The number in the top right **(3**) is the game id.
+
+The large section on top **(4)** is the list of all the words and is the same for both players. The smaller list below with the double outline **(5)** contains 
+the target words you want your partner to select. The list below that **(6)**, with the single outline, are words you want 
+your partner to avoid. Finally, the black words at the bottom **(7)** are words that your partner absolutely must not select because if that happens, you both lose the game!
+
+The table at the bottom right **(8)** is the tracker, which you use to record the turns and help you keep track of game progress.
+
+Finally, the table with the symbols at the top **(2)** is a reminder on how the words are distributed between the 
+players. [See below](#word-mixing) for details.
+
 ### Setup
-A game consists of 2 pages. Each player takes one of the pages, A or B. Make sure they have the same id. 
+A game consists of 2 pages. Each player takes one of the pages, A or B. Make sure they have the same id.
 
 The top list of words is identical to both players, but the smaller lists below are different and should not be revealed to your partner.
 
 Choose a starting player, then alternate turns giving clues.
+
 ### Turns
 You give a clue by saying a single word and a number. The number tells how many words relate to the clue.
 
@@ -122,6 +131,9 @@ Safari seems to have issues with printing and can split up pages in weird ways.
 Chrome is recommended and tested to produce printable pages.
 
 Layouts will not work properly in Safari versions prior to v15.
+
+### Page previews
+Text might wrap incorrectly if the page previews are small. They should still print fine. Set the browser's minimum font setting to 0 to avoid this issue.
 
 ## Acknowledgements
 Inspired by [cnpaperplay](https://github.com/dcmouser/cnpaperplay) which in turn is based on the boardgame 
