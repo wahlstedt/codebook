@@ -15,16 +15,13 @@ This plays pretty much like [Codenames Duet](https://czechgames.com/files/rules/
 
 It is a cooperative wordgame for two or more players where the game gives you words to give single-word clues for and words your partner must avoid.
 
-A clue is only one word, but it can point to multiple words that you want your partner to select. You and your partner 
-take turns giving clues and selecting words. If you find all the words before you run out of turns, you both win.
+A clue is only one word, but it can point to multiple words that you want your partner to select. You and your partner take turns giving clues and selecting words. If you find all the words before you run out of turns, you both win.
 
+![Page](https://user-images.githubusercontent.com/1794720/167020817-f23e9221-a3dc-45b4-83f3-7e25884b69b7.png)
 ### Page layout
-Each player has their own page with the same selection of words, but mixed up differently. The circled letter in the 
-top left **(1)** tells you which player's page it is. The number in the top right **(3**) is the game id.
+Each player has their own page with the same selection of words, but mixed up differently. The circled letter in the top left **(1)** tells you which player's page it is. The number in the top right **(3**) is the game id.
 
-The large section on top **(4)** is the list of all the words and is the same for both players. The smaller list below with the double outline **(5)** contains 
-the target words you want your partner to select. The list below that **(6)**, with the single outline, are words you want 
-your partner to avoid. Finally, the black words at the bottom **(7)** are words that your partner absolutely must not select because if that happens, you both lose the game!
+The large section on top **(4)** is the list of all the words and is the same for both players. The smaller list below with the double outline **(5)** contains the target words you want your partner to select. The list below that, with the single outline, **(6)** are words you want your partner to avoid. Finally, the black words at the bottom **(7)** are words that your partner absolutely must not select because if that happens, you both lose the game!
 
 The table at the bottom right **(8)** is the tracker, which you use to record the turns and help you keep track of game progress.
 
