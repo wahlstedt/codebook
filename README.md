@@ -13,20 +13,22 @@ Once open in a browser you select which wordlist you want to use from the dropdo
 ## Game rules
 This plays pretty much like [Codenames Duet](https://czechgames.com/files/rules/codenames-duet-rules-en.pdf) so if you know how to play that you are good to go. The main difference is that you play with pen and paper instead of cards and tokens.
 
-It is a cooperative wordgame for two or more players where the game gives you words to give single-word clues for and words your partner must avoid.
+It is a cooperative wordgame for two or more players where you and your partner try to locate certain words by giving single-word clues for them, while avoiding words that will end the turn or the entire game.
 
-A clue is only one word, but it can point to multiple words that you want your partner to select. You and your partner take turns giving clues and selecting words. If you find all the words before you run out of turns, you both win.
+A clue is only one word, but it can point to multiple words that you want your partner to find. You and your partner take turns giving clues and selecting words. If you find all the words before you run out of turns, you both win.
 
 ![Page](https://user-images.githubusercontent.com/1794720/167020817-f23e9221-a3dc-45b4-83f3-7e25884b69b7.png)
 ### Page layout
 Each player has their own page with the same selection of words, but mixed up differently. The circled letter in the top left **(1)** tells you which player's page it is. The number in the top right **(3**) is the game id.
 
-The large section on top **(4)** is the list of all the words and is the same for both players. The smaller list below with the double outline **(5)** contains the target words you want your partner to select. The list below that, with the single outline, **(6)** are words you want your partner to avoid. Finally, the black words at the bottom **(7)** are words that your partner absolutely must not select because if that happens, you both lose the game!
+The large section on top **(4)** is the list of all the words and is the same for both players. The smaller list 
+below with the double outline **(5)** contains the target words you want your partner to find. The list below that, 
+with the single outline, **(6)** are words you want your partner to avoid because that ends the turn. Finally, the black words at 
+the bottom **(7)** are words that your partner absolutely must not select because if that happens, you both lose the game!
 
 The table at the bottom right **(8)** is the tracker, which you use to record the turns and help you keep track of game progress.
 
-Finally, the table with the symbols at the top **(2)** is a reminder on how the words are distributed between the 
-players. [See below](#word-mixing) for details.
+Finally, the table with the symbols at the top **(2)** is a reminder on how the words are distributed between the players. [See below](#word-mixing) for details.
 
 ### Setup
 A game consists of 2 pages. Each player takes one of the pages, A or B. Make sure they have the same id.
@@ -56,7 +58,9 @@ lower ones if you are the clue giver.
 
 When a *black* word is selected you tear the paper up and start a new game...
 
-After a turn ends you note down how many words were found and if any words remain, to keep track of progress.  
+After a turn ends you note down how many words were found and if any words remain, to keep track of progress. 
+
+If you want to easily see how many words remain to find in total, you can use the table on top and cross out a column with a target symbol for each word found.
 
 ### Tracker table
 Each row is a turn and the columns are:
@@ -69,14 +73,23 @@ Each row is a turn and the columns are:
       
 ### Rule details
 #### Clues
-Your clue must be about the meaning of the words. You can't use your clue to talk about the letters in a word or its position in the list.
+Your clue must be a single word about the meaning of the words. You can't use your clue to talk about the letters in a word or its position in the list.
+
+If players agree, you can choose to relax the "one word" rule and allow multi-word names, compound words, titles, and acronyms.
 
 You can't use any part or form of an unfound word as a clue.
 
 Clue givers can't give any indication about whether a correct guess was the word they were thinking of for their clue, and must refrain from any comments or reactions that could assist the guesser.
 
 It is legal to assign 0 for clue number. But your partner must still select at least one word.
-                 
+
+#### Using previous clues
+You might not find all the words related to a clue because of a wrong guess, or the turn ended early because you didn't want to risk selecting a black word.
+
+When you select words, keep previous clues in mind. You don't have to pick words related to the current clue. You can select words related to any clue you have been given.
+
+When giving clues, your partner will have another chance to select words he didn't initially get, so it might not be necessary to give another clue for that same word.
+
 #### Out of words
 If all of your target words have been found, you notify your partner, who will now be the one giving clues on all 
 remaining turns.
@@ -87,11 +100,12 @@ If players run out of turns they enter sudden death mode. No more clues can be g
 #### Word mixing
 ![Key table](https://user-images.githubusercontent.com/1794720/166894893-54299a48-ed4f-4cee-89a0-454e75a22784.png)
 
-The table at the top of the page shows you how the words are mixed between the two players. Use this knowledge to your advantage. For example, 3 of your 9 target words are also target words for your partner. This overlap is why you only need to find 15 words in total.
+The table at the top of the page shows the relationship between the two players' words. The circles represent the three word types; target words, unused words, and black words. 
+
+Use this knowledge to your advantage. For example, 3 of your 9 target words are also target words for your partner. This overlap is why you only need to find 15 words in total.
 
 Of your 3 black words, one is also black for your partner. Another is a target word and one is unused. 
-This means that one of your black words is a word you must select. Furthermore, if you have found the black word 
-that is a target word on the other side, you should not select any of the other two black words.
+This means that one of your black words is a word you must select. Furthermore, if you have found the word that is black for you and a target word for your partner, you should ignore the other two words you have as black for the rest of the game.
    
 #### Scoring
 Scoring is optional, but can be used to compare games with others.
@@ -103,12 +117,10 @@ Games ended by a black word score differently: -10 points for each unused turn, 
 Most settings should be fairly self-explanatory, the advanced ones might require some explanation:
 
 ### Game configuration
-The standard game has 25 words, where each player has 9 target words and 3 black words, and you both need to find a total of 15 words in order to win.
+The standard game has 25 words, each player gets 9 target words and 3 black words, and you both need to find a total of 15 words in order to win.
 By using the game configuration you can create new variants by changing the number of words and their distribution.
 
-You do this by editing the numbers in the table of word combinations. There's 3 different word types: target words 
-(stars), unused words (empty circle) and black words (black circle). These can be combined in 9 ways, but since the 
-game is symmetric (both players have the same combinations) you can only adjust 6 values.
+You do this by editing the numbers in the table of word combinations. There's three different word types, represented by the circles: target words, unused words and black words. These can be combined in 9 ways, but since the game is symmetric (both players have the same combinations) you can only adjust 6 values.
 
 The values for the combinations where the words are the same type for both players are set _in total_, while the other combinations are set with the number _per player_, in order to keep the game symmetric.
    
@@ -119,15 +131,15 @@ words are automatically marked in both sections.
 Click on the tracker table cells to enter clues or toggle values.
 
 ## Troubleshooting
-### Printing
-To make sure all page elements print out, enable the "background graphics" option.
-
-Safari seems to have issues with printing and can split up pages in weird ways.
-
 ### Browser support
 Chrome is recommended and tested to produce printable pages.
 
 Layouts will not work properly in Safari versions prior to v15.
+
+### Printing
+To make sure all page elements print out, enable the "background graphics" option.
+
+Safari seems to have issues with printing and can split up pages in weird ways.
 
 ### Page previews
 Text might wrap incorrectly if the page previews are small. They should still print fine. Set the browser's minimum font setting to 0 to avoid this issue.

@@ -195,7 +195,7 @@
             border-style: solid;
         }
 
-        .star {
+        .target-header {
             position: relative;
             text-align: center;
             margin-bottom: -3.4rem;
@@ -387,7 +387,7 @@
 
         .expand {
             margin-top: 10px;
-            margin-bottom: 5px;
+            margin-bottom: 15px;
             cursor: pointer;
             user-select: none;
             -webkit-user-select: none;
@@ -474,6 +474,12 @@
             const seed = document.getElementById("seed").valueAsNumber;
             const numGames = parseInt(document.getElementById("games").value);
             const turns = document.getElementById("turns").valueAsNumber;
+            const targetSymbol = document.getElementById("target-symbol").value;
+            const blackSymbol = document.getElementById("black-symbol").value;
+            
+            // Set the key symbols
+            document.body.querySelector("#green use").setAttribute("href", `#${targetSymbol}`);
+            document.body.querySelector("#black use").setAttribute("href", `#${blackSymbol}`);
 
             // Defines how many of each symbol combination there is
             // [ playerA, playerB, count ]   0=white, 1=green, 2=black
@@ -653,7 +659,7 @@
 
         // Creates the svg for the key table
         function buildKey(deck) {
-            const lookup = ["white", "star", "black"]; // SVG symbol ids
+            const lookup = ["white", "green", "black"]; // SVG symbol ids
             let html = "", col = 0;
             for (const type of deck) {
                 for (let n = 0; n < type[2]; n++) {
@@ -748,7 +754,7 @@
             const caret = document.getElementById("expander");
             for (let element of items) {
                 if (window.getComputedStyle(element).display === "none") {
-                    element.style.display = "block"; // Hacky...
+                    element.style.display = "block";
                     caret.textContent = "expand_less";
                 } else {
                     element.style.display = "none";
@@ -841,7 +847,7 @@
                 <svg class="player"><use href="#circle-A"/></svg>
                 <div class="header">
                     <span class="title">C</span>
-                    <svg class="icon"><use href="#white"/><use href="#black" x="33%" width="33%"/></svg>
+                    <svg class="icon"><use href="#white"/><use href="#filled" x="33%" width="33%"/></svg>
                     <span class="title">D</span>
                     <span class="title">E</span>
                     <span class="title">B</span>
@@ -863,8 +869,8 @@
             </div>
         </div>
         <div class="left">
-            <div class="star">
-                <svg class="icon"><use href="#star"/></svg>
+            <div class="target-header">
+                <svg class="icon"><ellipse fill="white" ry="50%" rx="50%" id="back" cy="50%" cx="50%"/><use href="#green"/></svg>
             </div>
             <div id="greenwords" class="words-container green">
             </div>
@@ -902,11 +908,22 @@
 </template>
 
 <body>
+
 <svg style="display:none">
-    <symbol id="star" viewBox="0 0 24 24" fill="#000000"><ellipse fill="white" ry="12" rx="12" id="back" cy="12" cx="12"/><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zm7.48 7.16l-5.01-.43-2-4.71c3.21.19 5.91 2.27 7.01 5.14zm-5.07 6.26L12 13.98l-2.39 1.44.63-2.72-2.11-1.83 2.78-.24L12 8.06l1.09 2.56 2.78.24-2.11 1.83.64 2.73zm-2.86-11.4l-2 4.72-5.02.43c1.1-2.88 3.8-4.97 7.02-5.15zM4 12c0-.64.08-1.26.23-1.86l3.79 3.28-1.11 4.75C5.13 16.7 4 14.48 4 12zm3.84 6.82L12 16.31l4.16 2.5c-1.22.75-2.64 1.19-4.17 1.19-1.52 0-2.94-.44-4.15-1.18zm9.25-.65l-1.11-4.75 3.79-3.28c.14.59.23 1.22.23 1.86 0 2.48-1.14 4.7-2.91 6.17z"/></symbol>
-    <symbol id="white" viewBox="0 0 24 24" fill="#000000"><path d="M12,2C6.47,2,2,6.47,2,12c0,5.53,4.47,10,10,10s10-4.47,10-10C22,6.47,17.53,2,12,2z M12,20c-4.42,0-8-3.58-8-8 c0-4.42,3.58-8,8-8s8,3.58,8,8C20,16.42,16.42,20,12,20z"/></symbol>
-    <symbol id="black" viewBox="0 0 24 24" fill="#000000"><path d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2z"/></symbol>
-    <symbol id="arrows" viewBox="0 0 24 24"  fill="#000000"><polygon points="13,6.99 16,6.99 12,3 8,6.99 11,6.99 11,17.01 8,17.01 12,21 16,17.01 13,17.01"/></symbol>
+    <symbol id="green"><use href="#star"/></symbol> <!-- Used as an alias, so we can switch between different symbols -->
+    <symbol id="black"><use href="#filled"/></symbol>
+    <symbol id="target" viewBox="0 0 24 24"><path d="m13.25,12c0,0.69 -0.56,1.25 -1.25,1.25c-0.69,0 -1.25,-0.56 -1.25,-1.25c0,-0.69 0.56,-1.25 1.25,-1.25c0.69,0 1.25,0.56 1.25,1.25zm-6.88,0c0,-3.11 2.52,-5.63 5.63,-5.63c3.11,0 5.63,2.52 5.63,5.63c0,3.11 -2.52,5.63 -5.63,5.63c-3.11,0 -5.63,-2.52 -5.63,-5.63zm5.63,3.13c1.73,0 3.13,-1.4 3.13,-3.13c0,-1.73 -1.4,-3.13 -3.13,-3.13c-1.73,0 -3.13,1.4 -3.13,3.13c0,1.73 1.4,3.13 3.13,3.13zm10,-3.13c0,5.52 -4.48,10 -10,10c-5.52,0 -10,-4.48 -10,-10c0,-5.52 4.48,-10 10,-10c5.52,0 10,4.48 10,10zm-10,-7.5c-4.18,0 -7.5,3.33 -7.5,7.5c0,4.14 3.33,7.5 7.5,7.5c4.14,0 7.5,-3.36 7.5,-7.5c0,-4.18 -3.36,-7.5 -7.5,-7.5z"/></symbol>
+    <symbol id="star-outline" viewBox="0 0 24 24"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zm7.48 7.16l-5.01-.43-2-4.71c3.21.19 5.91 2.27 7.01 5.14zm-5.07 6.26L12 13.98l-2.39 1.44.63-2.72-2.11-1.83 2.78-.24L12 8.06l1.09 2.56 2.78.24-2.11 1.83.64 2.73zm-2.86-11.4l-2 4.72-5.02.43c1.1-2.88 3.8-4.97 7.02-5.15zM4 12c0-.64.08-1.26.23-1.86l3.79 3.28-1.11 4.75C5.13 16.7 4 14.48 4 12zm3.84 6.82L12 16.31l4.16 2.5c-1.22.75-2.64 1.19-4.17 1.19-1.52 0-2.94-.44-4.15-1.18zm9.25-.65l-1.11-4.75 3.79-3.28c.14.59.23 1.22.23 1.86 0 2.48-1.14 4.7-2.91 6.17z"/></symbol>
+    <symbol id="star" viewBox="0 0 24 24"><path d="m11.99,6.72c0.24,0 0.46,0.14 0.56,0.35l1.22,2.47l2.73,0.4c0.23,0.04 0.43,0.2 0.5,0.43c0.07,0.23 0.01,0.47 -0.16,0.64l-1.97,1.89l0.46,2.75c0.04,0.23 -0.05,0.47 -0.25,0.61c-0.2,0.14 -0.45,0.16 -0.66,0.05l-2.44,-1.28l-2.44,1.28c-0.21,0.11 -0.46,0.09 -0.66,-0.05c-0.19,-0.14 -0.28,-0.37 -0.25,-0.61l0.46,-2.75l-1.97,-1.89c-0.17,-0.17 -0.23,-0.41 -0.16,-0.64c0.07,-0.23 0.27,-0.39 0.5,-0.43l2.73,-0.4l1.22,-2.47c0.1,-0.21 0.32,-0.35 0.56,-0.35l0,0zm9.99,5.27c0,5.52 -4.47,9.99 -9.99,9.99c-5.52,0 -9.99,-4.47 -9.99,-9.99c0,-5.52 4.47,-9.99 9.99,-9.99c5.52,0 9.99,4.47 9.99,9.99zm-9.99,-8.12c-4.48,0 -8.12,3.63 -8.12,8.12c0,4.48 3.63,8.12 8.12,8.12c4.48,0 8.12,-3.63 8.12,-8.12c0,-4.48 -3.63,-8.12 -8.12,-8.12z"/></symbol>
+    <symbol id="bullseye" viewBox="0 0 24 24"><path d="M12,2C6.49,2,2,6.49,2,12s4.49,10,10,10s10-4.49,10-10S17.51,2,12,2z M12,20c-4.41,0-8-3.59-8-8s3.59-8,8-8s8,3.59,8,8 S16.41,20,12,20z M15,12c0,1.66-1.34,3-3,3s-3-1.34-3-3s1.34-3,3-3S15,10.34,15,12z"/></symbol>
+    <symbol id="bullseye-l" viewBox="0 0 24 24"><path d="M12 7c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5zm0-5C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"/></symbol>
+    <symbol id="smiley" viewBox="0 0 24 24"><path d="m11.99,15.73c1.45,0 2.47,-0.68 3.06,-1.32c0.35,-0.38 0.94,-0.41 1.32,-0.05c0.38,0.35 0.4,0.94 0.05,1.32c-0.85,0.93 -2.34,1.93 -4.43,1.93c-2.1,0 -3.58,-0.99 -4.43,-1.93c-0.35,-0.38 -0.36,-0.97 0.05,-1.32c0.38,-0.35 0.98,-0.32 1.32,0.05c0.59,0.64 1.61,1.32 3.06,1.32zm-1.86,-5.62c0,0.69 -0.56,1.25 -1.25,1.25c-0.69,0 -1.25,-0.56 -1.25,-1.25c0,-0.69 0.56,-1.25 1.25,-1.25c0.69,0 1.25,0.56 1.25,1.25zm3.75,0c0,-0.69 0.56,-1.25 1.25,-1.25c0.69,0 1.25,0.56 1.25,1.25c0,0.69 -0.56,1.25 -1.25,1.25c-0.69,0 -1.25,-0.56 -1.25,-1.25zm8.1,1.87c0,5.52 -4.47,9.99 -9.99,9.99c-5.52,0 -9.99,-4.47 -9.99,-9.99c0,-5.52 4.47,-9.99 9.99,-9.99c5.52,0 9.99,4.47 9.99,9.99zm-9.99,-8.12c-4.48,0 -8.12,3.63 -8.12,8.12c0,4.48 3.63,8.12 8.12,8.12c4.48,0 8.12,-3.63 8.12,-8.12c0,-4.48 -3.63,-8.12 -8.12,-8.12z"/></symbol>    <symbol id="white" viewBox="0 0 24 24" fill="#000000"><path d="M12,2C6.47,2,2,6.47,2,12c0,5.53,4.47,10,10,10s10-4.47,10-10C22,6.47,17.53,2,12,2z M12,20c-4.42,0-8-3.58-8-8 c0-4.42,3.58-8,8-8s8,3.58,8,8C20,16.42,16.42,20,12,20z"/></symbol>
+    <symbol id="filled" viewBox="0 0 24 24"><path d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2z"/></symbol>
+    <symbol id="skull" viewBox="0 0 24 24"><path d="m18.23,17.61l0,2.5c0,1.03 -0.84,1.87 -1.87,1.87l-1.87,0l0,-1.87c0,-0.34 -0.28,-0.62 -0.62,-0.62c-0.34,0 -0.62,0.28 -0.62,0.62l0,1.87l-2.5,0l0,-1.87c0,-0.34 -0.28,-0.62 -0.62,-0.62c-0.34,0 -0.62,0.28 -0.62,0.62l0,1.87l-1.87,0c-1.03,0 -1.87,-0.84 -1.87,-1.87l0,-2.5c0,-0.02 0,-0.03 0,-0.04c-2.28,-1.6 -3.75,-4.07 -3.75,-6.82c0,-4.83 4.47,-8.74 9.99,-8.74c5.52,0 9.99,3.91 9.99,8.74c0,2.76 -1.46,5.22 -3.78,6.82c0,0.02 0.04,0.03 0.04,0.04l0,0zm-9.99,-8.11c-1.38,0 -2.5,1.12 -2.5,2.5c0,1.38 1.12,2.5 2.5,2.5c1.38,0 2.5,-1.12 2.5,-2.5c0,-1.38 -1.12,-2.5 -2.5,-2.5zm7.49,4.99c1.38,0 2.5,-1.12 2.5,-2.5c0,-1.38 -1.12,-2.5 -2.5,-2.5c-1.38,0 -2.5,1.12 -2.5,2.5c0,1.38 1.12,2.5 2.5,2.5z"/></symbol>
+    <symbol id="sadface" viewBox="0 0 24 24"><path d="m2,11.99c0,-5.52 4.47,-9.99 9.99,-9.99c5.52,0 9.99,4.47 9.99,9.99c0,5.52 -4.47,9.99 -9.99,9.99c-5.52,0 -9.99,-4.47 -9.99,-9.99zm6.88,-0.62c0.69,0 1.25,-0.56 1.25,-1.25c0,-0.69 -0.56,-1.25 -1.25,-1.25c-0.69,0 -1.25,0.56 -1.25,1.25c0,0.69 0.56,1.25 1.25,1.25zm6.24,-2.5c-0.69,0 -1.25,0.56 -1.25,1.25c0,0.69 0.56,1.25 1.25,1.25c0.69,0 1.25,-0.56 1.25,-1.25c0,-0.69 -0.56,-1.25 -1.25,-1.25zm-2.98,7.54c1.13,0 2.2,0.23 3.15,0.63c0.48,0.2 1.02,-0.16 0.81,-0.64c-0.65,-1.49 -2.18,-2.57 -3.96,-2.57c-1.78,0 -3.31,1.08 -3.96,2.57c-0.21,0.48 0.3,0.84 0.82,0.64c0.95,-0.4 2.02,-0.62 3.14,-0.62l0,0z"/></symbol>
+    <symbol id="nuclear" viewBox="0 0 24 24"><path d="m10.76,10.02l-1.73,-2.78c-0.22,-0.34 -0.69,-0.41 -1,-0.15c-1.24,1 -2.11,2.46 -2.31,4.13c-0.05,0.41 0.25,0.77 0.66,0.77l3.29,0c0,-0.83 0.44,-1.56 1.1,-1.97zm1.23,3.31c0.74,0 1.33,-0.6 1.33,-1.33s-0.6,-1.33 -1.33,-1.33c-0.74,0 -1.33,0.6 -1.33,1.33s0.6,1.33 1.33,1.33zm1.23,0.64c-0.4,0.22 -0.78,0.36 -1.23,0.36c-0.45,0 -0.87,-0.14 -1.23,-0.36l-1.74,2.78c-0.22,0.35 -0.07,0.79 0.3,0.97c0.81,0.39 1.71,0.61 2.67,0.61c0.96,0 1.86,-0.22 2.67,-0.61c0.37,-0.18 0.52,-0.62 0.3,-0.97l-1.74,-2.78zm2.74,-6.87c-0.32,-0.26 -0.79,-0.19 -1,0.16l-1.74,2.78c0.66,0.41 1.1,1.14 1.1,1.97l3.29,0c0.41,0 0.71,-0.37 0.66,-0.77c-0.21,-1.66 -1.06,-3.12 -2.31,-4.13zm-3.97,-5.09c-5.52,0 -9.99,4.47 -9.99,9.99s4.47,9.99 9.99,9.99c5.52,0 9.99,-4.47 9.99,-9.99s-4.47,-9.99 -9.99,-9.99zm0,17.32c-4.04,0 -7.33,-3.29 -7.33,-7.33s3.25,-7.33 7.33,-7.33s7.33,3.29 7.33,7.33s-3.29,7.33 -7.33,7.33z"/></symbol>
+    <symbol id="biohazard" viewBox="0 0 24 24"><path d="m22.97,12.98c-0.5,-1.49 -1.51,-2.75 -2.83,-3.53c-0.67,-0.4 -1.38,-0.63 -2.11,-0.76c0.23,-0.68 0.38,-1.39 0.38,-2.15c0,-1.56 -0.55,-3.08 -1.57,-4.28c-0.1,-0.11 -0.25,-0.14 -0.38,-0.07c-0.12,0.07 -0.18,0.23 -0.14,0.37c0.17,0.52 0.25,1 0.25,1.47c0,2.59 -2.05,4.69 -4.58,4.69s-4.58,-2.1 -4.58,-4.69c0,-0.46 0.09,-0.94 0.25,-1.47c0.04,-0.14 -0.01,-0.3 -0.14,-0.37c-0.13,-0.07 -0.29,-0.05 -0.38,0.07c-1.01,1.2 -1.57,2.72 -1.57,4.28c0,0.75 0.15,1.47 0.38,2.15c-0.72,0.12 -1.44,0.36 -2.11,0.76c-1.32,0.78 -2.33,2.03 -2.84,3.53c-0.05,0.14 0.01,0.3 0.13,0.37c0.13,0.08 0.29,0.05 0.38,-0.06c0.36,-0.41 0.73,-0.73 1.12,-0.96c2.19,-1.29 4.99,-0.52 6.26,1.72c1.26,2.24 0.51,5.08 -1.67,6.41c-0.39,0.23 -0.84,0.4 -1.37,0.51c-0.14,0.03 -0.24,0.16 -0.24,0.31c0,0.15 0.1,0.28 0.25,0.31c1.52,0.3 3.08,0.03 4.4,-0.75c0.69,-0.4 1.26,-0.93 1.73,-1.53c0.47,0.59 1.05,1.13 1.73,1.53c1.32,0.78 2.88,1.05 4.39,0.75c0.15,-0.03 0.24,-0.15 0.25,-0.31c0,-0.15 -0.1,-0.28 -0.24,-0.31c-0.53,-0.11 -0.98,-0.28 -1.36,-0.51c-2.19,-1.29 -2.94,-4.17 -1.68,-6.41c1.26,-2.24 4.07,-3.01 6.26,-1.72c0.39,0.23 0.75,0.54 1.11,0.96c0.1,0.11 0.26,0.13 0.38,0.06c0.13,-0.08 0.19,-0.23 0.13,-0.37zm-11.01,1.4c-1.01,0 -1.83,-0.82 -1.83,-1.83c0,-1.01 0.82,-1.83 1.83,-1.83c1.01,0 1.83,0.82 1.83,1.83c0,1.01 -0.79,1.83 -1.83,1.83zm3.74,2.19c0.04,0.87 0.41,1.7 1.04,2.33c1.81,-1.35 3.02,-3.46 3.17,-5.86c-0.86,-0.24 -1.74,-0.1 -2.5,0.33c-0.19,1.26 -0.81,2.34 -1.71,3.2zm-5.03,-9.35c1,-0.25 1.73,-0.23 2.65,0c0.84,-0.37 1.49,-1.09 1.81,-1.98c-0.97,-0.42 -2.02,-0.65 -3.14,-0.65c-1.11,0 -2.17,0.23 -3.14,0.64c0.32,0.85 0.97,1.6 1.81,1.98zm-3.42,11.68c0.63,-0.62 0.99,-1.46 1.04,-2.33c-0.9,-0.82 -1.51,-1.93 -1.71,-3.19c-0.74,-0.43 -1.62,-0.58 -2.5,-0.34c0.15,2.4 1.36,4.5 3.17,5.86z"/></symbol>
+    <symbol id="arrows" viewBox="0 0 24 24"><polygon points="13,6.99 16,6.99 12,3 8,6.99 11,6.99 11,17.01 8,17.01 12,21 16,17.01 13,17.01"/></symbol>
     <symbol id="circle-A" viewBox="0 0 512 512"><path d="M256 0C114.6 0 0 114.6 0 256s114.6 256 256 256s256-114.6 256-256S397.4 0 256 0zM362.1 365.8c-3.266 1.506-6.687 2.229-10.05 2.229c-9.078 0-17.75-5.18-21.81-14l-12.03-26.18H193.8l-12.03 26.18c-5.576 12.09-19.76 17.36-31.86 11.77c-12.03-5.559-17.28-19.91-11.73-31.99l95.99-208.1c7.842-17.08 35.75-17.08 43.59 0l95.99 208.1C379.3 345.9 374.1 360.2 362.1 365.8zM215.1 279.6h80.05L256 192.5L215.1 279.6z"/></symbol>
     <symbol id="circle-B" viewBox="0 0 512 512"><path d="M292 280H208v56h84C307.4 336 320 323.4 320 308S307.4 280 292 280zM304 204c0-15.44-12.56-28-28-28H208v56h68C291.4 232 304 219.4 304 204zM256 0C114.6 0 0 114.6 0 256s114.6 256 256 256s256-114.6 256-256S397.4 0 256 0zM292 384H184C170.8 384 160 373.3 160 360v-208C160 138.8 170.8 128 184 128h92C317.9 128 352 162.1 352 204c0 16.35-5.301 31.41-14.12 43.82C356.1 261.7 368 283.4 368 308C368 349.9 333.9 384 292 384z"/></symbol>
 </svg>
@@ -914,15 +931,15 @@
 <a class="github-fork-ribbon" href="https://github.com/wahlstedt/codebook" data-ribbon="Fork me on GitHub" title="Fork me on GitHub">Fork me on GitHub</a>
 
 <div class="settings">
-   <div id="status" class="status">Drop one or more textfiles on this window to generate game pages.</div>
+    <div id="status" class="status">Drop one or more textfiles on this window to generate game pages.</div>
 
     <div class="settings-wordlist">Wordlist<br>
         <select name="wordlist" id="wordlist">
             <option value="en"></option>
             <optgroup label="English">
-            <option value="en">English</option>
-            <option value="e_duet">English DUET</option>
-            <option value="en_undercover_v2">English Undercover</option>
+                <option value="en">English</option>
+                <option value="e_duet">English DUET</option>
+                <option value="en_undercover_v2">English Undercover</option>
             </optgroup>
             <option value="af">Afrikaans</option>
             <option value="sq">Albanian</option>
@@ -1015,8 +1032,7 @@
 
     <div class="expand" onclick="onExpand()">Advanced settings <span id="expander" class="material-icons">expand_more</span></div>
     <div class="advanced">
-    <div class="settings-row">
-        <div>
+        <div class="settings-row">
             <div class="settings-size">Page size<br>
                 <select name="size" id="size">
                     <option value="A4">A4</option>
@@ -1024,6 +1040,17 @@
                 </select>
             </div>
 
+            <div class="settings-checkboxes">
+                <div><input type="checkbox" id="help" name="help" checked>
+                    <label for="help">Help texts</label>
+                </div>
+
+                <div>
+                    <input type="checkbox" id="interactive" name="interactive" checked>
+                    <label for="interactive">Interactive</label>
+                </div>
+            </div>
+            
             <div>Language<br>
                 <select name="lang" id="lang">
                     <option value="en">English</option>
@@ -1031,87 +1058,126 @@
                 </select>
             </div>
         </div>
-        
-        <div class="settings-checkboxes">
-            <div><input type="checkbox" id="help" name="help" checked>
-                <label for="help">Help texts</label>
-            </div>
 
-            <div>
-                <input type="checkbox" id="interactive" name="interactive" checked>
-                <label for="interactive">Interactive</label>
+        <div class="settings-row">
+            <div>Target word symbol<br>
+                <select name="targetsymbol" id="target-symbol">
+                    <option value="star">Star</option>
+                    <option value="star-outline">Star outline</option>
+                    <option value="target">Target</option>
+                    <option value="bullseye">Bullseye</option>
+                    <option value="bullseye-l">Bullseye XL</option>
+                    <option value="smiley">Smiley</option>
+                </select><br>
+               Black word symbol<br>
+                <select name="blacksymbol" id="black-symbol">
+                    <option value="filled">Filled</option>
+                    <option value="skull">Skull</option>
+                    <option value="sadface">Sad face</option>
+                    <option value="biohazard">Biohazard</option>
+                    <option value="nuclear">Nuclear</option>
+                </select>
             </div>
         </div>
-    </div>
 
-    <div class="customizer">
-        <div class="customizer-title">Game configuration</div>
-        <form>
-            <div class="customizer-symbol">
-                <svg class="icon"><use href="#white"/></svg><br>
-                <svg class="icon"><use href="#white"/></svg>
-            </div>
-            <div class="customizer-symbol">
-                <svg class="icon"><use href="#star"/></svg><br>
-                <svg class="icon"><use href="#star"/></svg>
-            </div>
-            <div class="customizer-symbol">
-                <svg class="icon"><use href="#black"/></svg><br>
-                <svg class="icon"><use href="#black"/></svg>
-            </div>
-            <div class="customizer-symbol">
-                <svg class="icon"><use href="#black"/></svg><br>
-                <svg class="icon"><use href="#white"/></svg>
-            </div>
-            <div class="customizer-symbol">
-                <svg class="icon"><use href="#black"/></svg><br>
-                <svg class="icon"><use href="#star"/></svg>
-            </div>
-            <div class="customizer-symbol">
-                <svg class="icon"><use href="#star"/></svg><br>
-                <svg class="icon"><use href="#white"/></svg>
-            </div>
+        <div class="customizer">
+            <div class="customizer-title">Game configuration</div>
+            <form>
+                <div class="customizer-symbol">
+                    <svg class="icon">
+                        <use href="#white"/>
+                    </svg>
+                    <br>
+                    <svg class="icon">
+                        <use href="#white"/>
+                    </svg>
+                </div>
+                <div class="customizer-symbol">
+                    <svg class="icon">
+                        <use href="#green"/>
+                    </svg>
+                    <br>
+                    <svg class="icon">
+                        <use href="#green"/>
+                    </svg>
+                </div>
+                <div class="customizer-symbol">
+                    <svg class="icon">
+                        <use href="#black"/>
+                    </svg>
+                    <br>
+                    <svg class="icon">
+                        <use href="#black"/>
+                    </svg>
+                </div>
+                <div class="customizer-symbol">
+                    <svg class="icon">
+                        <use href="#black"/>
+                    </svg>
+                    <br>
+                    <svg class="icon">
+                        <use href="#white"/>
+                    </svg>
+                </div>
+                <div class="customizer-symbol">
+                    <svg class="icon">
+                        <use href="#black"/>
+                    </svg>
+                    <br>
+                    <svg class="icon">
+                        <use href="#green"/>
+                    </svg>
+                </div>
+                <div class="customizer-symbol">
+                    <svg class="icon">
+                        <use href="#green"/>
+                    </svg>
+                    <br>
+                    <svg class="icon">
+                        <use href="#white"/>
+                    </svg>
+                </div>
 
-            <div class="customizer-turns-title">Turns</div>
+                <div class="customizer-turns-title">Turns</div>
 
-            <div class="customizer-start-col">
-                <input type="number" id="00" min="0" max="20" value="7">
-            </div>
-            <div>
-                <input type="number" id="11" min="0" max="20" value="3">
-            </div>
-            <div>
-                <input type="number" id="22" min="0" max="10" value="1">
-            </div>
-            <div>
-                <input type="number" id="02" min="0" max="10" value="1">
-            </div>
-            <div>
-                <input type="number" id="12" min="0" max="10" value="1">
-            </div>
-            <div>
-                <input type="number" id="01" min="0" max="10" value="5">
-            </div>
+                <div class="customizer-start-col">
+                    <input type="number" id="00" min="0" max="20" value="7">
+                </div>
+                <div>
+                    <input type="number" id="11" min="0" max="20" value="3">
+                </div>
+                <div>
+                    <input type="number" id="22" min="0" max="10" value="1">
+                </div>
+                <div>
+                    <input type="number" id="02" min="0" max="10" value="1">
+                </div>
+                <div>
+                    <input type="number" id="12" min="0" max="10" value="1">
+                </div>
+                <div>
+                    <input type="number" id="01" min="0" max="10" value="5">
+                </div>
 
-            <div class="customizer-line"></div>
-            <div class="customizer-line"></div>
+                <div class="customizer-line"></div>
+                <div class="customizer-line"></div>
 
-            <div class="customizer-info">
-                Total count
-            </div>
-            <div class="customizer-info">
-                Count per player
-            </div>
+                <div class="customizer-info">
+                    Total count
+                </div>
+                <div class="customizer-info">
+                    Count per player
+                </div>
 
-            <div class="setting-turns">
-                <input type="number" id="turns" name="turns" min="2" max="20" value="9">
-            </div>
+                <div class="setting-turns">
+                    <input type="number" id="turns" name="turns" min="2" max="20" value="9">
+                </div>
 
-            <div class="customizer-reset">
-                <input type="reset">
-            </div>
-        </form>
-    </div>
+                <div class="customizer-reset">
+                    <input type="reset">
+                </div>
+            </form>
+        </div>
     </div>
 </div>
 
