@@ -63,6 +63,8 @@ After a turn ends you note down how many words were found and if any words remai
 If you want to easily see how many words remain to find in total, you can use the table on top and cross out a column with a target symbol for each word found.
 
 ### Tracker table
+![Tracker](https://user-images.githubusercontent.com/1794720/167218612-44dbbe11-5dbb-492f-847f-4bfcf230c441.png)
+
 Each row is a turn and the columns are:
 1. Player giving the clue (e.g. A/B or initials).
 2. Clue word.
