@@ -6,7 +6,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Architects+Daughter&family=Mulish:wght@500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Architects+Daughter&family=Red+Hat+Display:wght@300..800&family=Red+Hat+Text:wght@400..900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/github-fork-ribbon-css/0.2.3/gh-fork-ribbon.min.css" />
     <style>
 
@@ -24,13 +24,13 @@
         */
         
         body {
-            font-family: 'Mulish', Verdana, Geneva, sans-serif;
+            font-family: 'Red Hat Text', Verdana, Geneva, sans-serif;
         }
 
         .page {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            grid-template-rows: 1fr auto auto;
+            grid-template-rows: 1fr auto;
             grid-template-areas: "top top" "left right";
             width: 100%;
             aspect-ratio: 210 / 297;
@@ -76,6 +76,9 @@
         .left {
             grid-area: left;
             align-self: start;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
         }
 
         .right {
@@ -112,16 +115,18 @@
         }
 
         .title {
-            font-weight: 500;
+            font-family: 'Red Hat Display', sans-serif;
+            font-weight: 400;
             font-size: 1.8rem;
-            padding: 0 0.2rem;
+            padding: 0 0.15rem;
             text-align: center;
             position: relative;
-            top: -.25rem;
+            top: -0.25rem;
         }
 
         .gameid {
-            font-weight: 500;
+            font-family: 'Red Hat Display', sans-serif;
+            font-weight: 420;
             font-size: 1.8rem;
             text-align: right;
             grid-column: 3;
@@ -131,19 +136,20 @@
         .key {
             place-self: center;
             width: 100%;
-            max-height: 5rem; /* Optimally 68px */
+            max-height: 5.2rem; /* Optimally 68px */
             grid-column: span 3;
         }
 
         .words-container {
             display: flex;
-            flex: 1; /* To take up all available space */
+            flex: 1;
+            height: 100%;  /* To take up all available space */
             flex-direction: row;
             flex-wrap: wrap;
             align-content: stretch;
             align-items: center;
             border: 0.4rem solid black;
-            border-radius: 4rem;
+            border-radius: 3rem;
             padding: 1rem 0;
             margin-top: 2rem;
             user-select: none;
@@ -157,19 +163,28 @@
         .words-container div {
             flex: 1;
             font-size: 1.5rem;
-            font-weight: 700;
+            font-family: 'Red Hat Display', sans-serif;
+            font-weight: 600;
             text-align: center;
             box-sizing: border-box;
             flex-basis: calc(20% - 0.6rem); /* Some leeway to allow for the border in interactive mode */
             padding: 0 0.6rem;
         }
 
-        .words-container .js-strike { /* Using longhand format because Safari doesn't have the shorthand */
+        .js-strike { /* Using longhand format because Safari doesn't have the shorthand */
             text-decoration-thickness: 0.3rem;
             text-decoration-line: line-through;
             text-decoration-color: red;
         }
 
+        .js-strike:after {
+            content: "\00a0";
+        }
+
+        .js-strike:before {
+            content: "\00a0";
+        }
+        
         .words-container .js-circle {
             border: 0.3rem green solid;
             border-radius: 1.6rem;
@@ -185,7 +200,7 @@
         .green {
             border-width: 0.5rem;
             border-style: double;
-            border-radius: 2rem;
+            border-radius: 1rem;
             padding-top: 0.5rem;
             padding-bottom: 0.5rem;
         }
@@ -204,7 +219,7 @@
         
         .black div {
             font-size: 1.2rem;
-            font-weight: 600;
+            font-weight: 500;
             flex-basis: auto;
             padding: 0.4rem 0.8rem;
             margin: 0.2rem;
@@ -214,9 +229,9 @@
 
         .green div {
             font-size: 1.2rem;
-            font-weight: 700;
+            font-weight: 500;
             flex-basis: calc(33% - 0.8rem);
-            padding: 0.4rem 0;
+            padding: 0.2rem 0;
             margin: 0.2rem;
         }
 
@@ -311,15 +326,15 @@
             gap: 10%;
         }
 
+        .settings-select {
+            margin-bottom: 15px;
+        }
+
         .settings-checkboxes {
             display: flex;
             flex-direction: column;
             justify-content: space-evenly;
             text-align: left;
-        }
-
-        .settings-size {
-            margin-bottom: 15px;
         }
         
         .setting-turns {
@@ -374,6 +389,11 @@
             background: white;
             padding-top: 4px;
             border: 1px black solid;
+        }
+
+        .customizer-symbol svg {
+            width: 24px;
+            height: 24px;
         }
 
         .customizer-turns-title {
@@ -880,12 +900,12 @@
             <div id="whitewords" class="words-container green white">
             </div>
             <div id="white" class="helptext">
-                If your partner selects one of these words, the turn ends.
+                If your partner picks one of these words, the turn ends.
             </div>
             <div id="blackwords" class="words-container black">
             </div>
             <div id="black" class="helptext">
-                If your partner selects one of these words, the game is lost!
+                If your partner picks one of these words, the game is lost!
             </div>
         </div>
         <div class="right">
@@ -921,6 +941,7 @@
     <symbol id="filled" viewBox="0 0 24 24"><path d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2z"/></symbol>
     <symbol id="skull" viewBox="0 0 24 24"><path d="m18.23,17.61l0,2.5c0,1.03 -0.84,1.87 -1.87,1.87l-1.87,0l0,-1.87c0,-0.34 -0.28,-0.62 -0.62,-0.62c-0.34,0 -0.62,0.28 -0.62,0.62l0,1.87l-2.5,0l0,-1.87c0,-0.34 -0.28,-0.62 -0.62,-0.62c-0.34,0 -0.62,0.28 -0.62,0.62l0,1.87l-1.87,0c-1.03,0 -1.87,-0.84 -1.87,-1.87l0,-2.5c0,-0.02 0,-0.03 0,-0.04c-2.28,-1.6 -3.75,-4.07 -3.75,-6.82c0,-4.83 4.47,-8.74 9.99,-8.74c5.52,0 9.99,3.91 9.99,8.74c0,2.76 -1.46,5.22 -3.78,6.82c0,0.02 0.04,0.03 0.04,0.04l0,0zm-9.99,-8.11c-1.38,0 -2.5,1.12 -2.5,2.5c0,1.38 1.12,2.5 2.5,2.5c1.38,0 2.5,-1.12 2.5,-2.5c0,-1.38 -1.12,-2.5 -2.5,-2.5zm7.49,4.99c1.38,0 2.5,-1.12 2.5,-2.5c0,-1.38 -1.12,-2.5 -2.5,-2.5c-1.38,0 -2.5,1.12 -2.5,2.5c0,1.38 1.12,2.5 2.5,2.5z"/></symbol>
     <symbol id="sadface" viewBox="0 0 24 24"><path d="m2,11.99c0,-5.52 4.47,-9.99 9.99,-9.99c5.52,0 9.99,4.47 9.99,9.99c0,5.52 -4.47,9.99 -9.99,9.99c-5.52,0 -9.99,-4.47 -9.99,-9.99zm6.88,-0.62c0.69,0 1.25,-0.56 1.25,-1.25c0,-0.69 -0.56,-1.25 -1.25,-1.25c-0.69,0 -1.25,0.56 -1.25,1.25c0,0.69 0.56,1.25 1.25,1.25zm6.24,-2.5c-0.69,0 -1.25,0.56 -1.25,1.25c0,0.69 0.56,1.25 1.25,1.25c0.69,0 1.25,-0.56 1.25,-1.25c0,-0.69 -0.56,-1.25 -1.25,-1.25zm-2.98,7.54c1.13,0 2.2,0.23 3.15,0.63c0.48,0.2 1.02,-0.16 0.81,-0.64c-0.65,-1.49 -2.18,-2.57 -3.96,-2.57c-1.78,0 -3.31,1.08 -3.96,2.57c-0.21,0.48 0.3,0.84 0.82,0.64c0.95,-0.4 2.02,-0.62 3.14,-0.62l0,0z"/></symbol>
+    <symbol id="bomb" viewBox="0 0 24 24"><path d="m23.8,11.66zm-7.94,-9.51c0.6,-0.6 1.57,-0.6 2.17,0l1.37,1.38l0.83,-0.83c0.3,-0.3 0.79,-0.3 1.08,0c0.3,0.3 0.3,0.79 0,1.08l-0.83,0.83l1.37,1.37c0.6,0.6 0.6,1.57 0,2.16l-0.52,0.52c0.38,1.05 0.58,2.19 0.58,3.38c0,5.5 -4.46,9.96 -9.96,9.96c-5.5,0 -9.96,-4.46 -9.96,-9.96c0,-5.5 4.46,-9.96 9.96,-9.96c1.18,0 2.32,0.21 3.38,0.59l0.52,-0.52zm-9.31,9.51c0,-2.75 2.28,-4.98 4.98,-4.98l0.38,0c0.46,0 0.77,-0.34 0.77,-0.77c0,-0.42 -0.3,-0.77 -0.77,-0.77l-0.38,0c-3.55,0 -6.51,2.92 -6.51,6.51l0,0.38c0,0.42 0.39,0.77 0.77,0.77c0.47,0 0.77,-0.34 0.77,-0.77l0,-0.38z"/></symbol>
     <symbol id="nuclear" viewBox="0 0 24 24"><path d="m10.76,10.02l-1.73,-2.78c-0.22,-0.34 -0.69,-0.41 -1,-0.15c-1.24,1 -2.11,2.46 -2.31,4.13c-0.05,0.41 0.25,0.77 0.66,0.77l3.29,0c0,-0.83 0.44,-1.56 1.1,-1.97zm1.23,3.31c0.74,0 1.33,-0.6 1.33,-1.33s-0.6,-1.33 -1.33,-1.33c-0.74,0 -1.33,0.6 -1.33,1.33s0.6,1.33 1.33,1.33zm1.23,0.64c-0.4,0.22 -0.78,0.36 -1.23,0.36c-0.45,0 -0.87,-0.14 -1.23,-0.36l-1.74,2.78c-0.22,0.35 -0.07,0.79 0.3,0.97c0.81,0.39 1.71,0.61 2.67,0.61c0.96,0 1.86,-0.22 2.67,-0.61c0.37,-0.18 0.52,-0.62 0.3,-0.97l-1.74,-2.78zm2.74,-6.87c-0.32,-0.26 -0.79,-0.19 -1,0.16l-1.74,2.78c0.66,0.41 1.1,1.14 1.1,1.97l3.29,0c0.41,0 0.71,-0.37 0.66,-0.77c-0.21,-1.66 -1.06,-3.12 -2.31,-4.13zm-3.97,-5.09c-5.52,0 -9.99,4.47 -9.99,9.99s4.47,9.99 9.99,9.99c5.52,0 9.99,-4.47 9.99,-9.99s-4.47,-9.99 -9.99,-9.99zm0,17.32c-4.04,0 -7.33,-3.29 -7.33,-7.33s3.25,-7.33 7.33,-7.33s7.33,3.29 7.33,7.33s-3.29,7.33 -7.33,7.33z"/></symbol>
     <symbol id="biohazard" viewBox="0 0 24 24"><path d="m22.97,12.98c-0.5,-1.49 -1.51,-2.75 -2.83,-3.53c-0.67,-0.4 -1.38,-0.63 -2.11,-0.76c0.23,-0.68 0.38,-1.39 0.38,-2.15c0,-1.56 -0.55,-3.08 -1.57,-4.28c-0.1,-0.11 -0.25,-0.14 -0.38,-0.07c-0.12,0.07 -0.18,0.23 -0.14,0.37c0.17,0.52 0.25,1 0.25,1.47c0,2.59 -2.05,4.69 -4.58,4.69s-4.58,-2.1 -4.58,-4.69c0,-0.46 0.09,-0.94 0.25,-1.47c0.04,-0.14 -0.01,-0.3 -0.14,-0.37c-0.13,-0.07 -0.29,-0.05 -0.38,0.07c-1.01,1.2 -1.57,2.72 -1.57,4.28c0,0.75 0.15,1.47 0.38,2.15c-0.72,0.12 -1.44,0.36 -2.11,0.76c-1.32,0.78 -2.33,2.03 -2.84,3.53c-0.05,0.14 0.01,0.3 0.13,0.37c0.13,0.08 0.29,0.05 0.38,-0.06c0.36,-0.41 0.73,-0.73 1.12,-0.96c2.19,-1.29 4.99,-0.52 6.26,1.72c1.26,2.24 0.51,5.08 -1.67,6.41c-0.39,0.23 -0.84,0.4 -1.37,0.51c-0.14,0.03 -0.24,0.16 -0.24,0.31c0,0.15 0.1,0.28 0.25,0.31c1.52,0.3 3.08,0.03 4.4,-0.75c0.69,-0.4 1.26,-0.93 1.73,-1.53c0.47,0.59 1.05,1.13 1.73,1.53c1.32,0.78 2.88,1.05 4.39,0.75c0.15,-0.03 0.24,-0.15 0.25,-0.31c0,-0.15 -0.1,-0.28 -0.24,-0.31c-0.53,-0.11 -0.98,-0.28 -1.36,-0.51c-2.19,-1.29 -2.94,-4.17 -1.68,-6.41c1.26,-2.24 4.07,-3.01 6.26,-1.72c0.39,0.23 0.75,0.54 1.11,0.96c0.1,0.11 0.26,0.13 0.38,0.06c0.13,-0.08 0.19,-0.23 0.13,-0.37zm-11.01,1.4c-1.01,0 -1.83,-0.82 -1.83,-1.83c0,-1.01 0.82,-1.83 1.83,-1.83c1.01,0 1.83,0.82 1.83,1.83c0,1.01 -0.79,1.83 -1.83,1.83zm3.74,2.19c0.04,0.87 0.41,1.7 1.04,2.33c1.81,-1.35 3.02,-3.46 3.17,-5.86c-0.86,-0.24 -1.74,-0.1 -2.5,0.33c-0.19,1.26 -0.81,2.34 -1.71,3.2zm-5.03,-9.35c1,-0.25 1.73,-0.23 2.65,0c0.84,-0.37 1.49,-1.09 1.81,-1.98c-0.97,-0.42 -2.02,-0.65 -3.14,-0.65c-1.11,0 -2.17,0.23 -3.14,0.64c0.32,0.85 0.97,1.6 1.81,1.98zm-3.42,11.68c0.63,-0.62 0.99,-1.46 1.04,-2.33c-0.9,-0.82 -1.51,-1.93 -1.71,-3.19c-0.74,-0.43 -1.62,-0.58 -2.5,-0.34c0.15,2.4 1.36,4.5 3.17,5.86z"/></symbol>
     <symbol id="arrows" viewBox="0 0 24 24"><polygon points="13,6.99 16,6.99 12,3 8,6.99 11,6.99 11,17.01 8,17.01 12,21 16,17.01 13,17.01"/></symbol>
@@ -933,12 +954,13 @@
 <div class="settings">
     <div id="status" class="status">Drop one or more textfiles on this window to generate game pages.</div>
 
-    <div class="settings-wordlist">Wordlist<br>
+    <div class="settings-wordlist">
+        <label for="wordlist">Wordlist</label><br>
         <select name="wordlist" id="wordlist">
             <option value="en"></option>
             <optgroup label="English">
                 <option value="en">English</option>
-                <option value="e_duet">English DUET</option>
+                <option value="en_duet">English DUET</option>
                 <option value="en_undercover_v2">English Undercover</option>
             </optgroup>
             <option value="af">Afrikaans</option>
@@ -1006,11 +1028,13 @@
     </div>
 
     <div class="settings-row">
-        <div class="settings-start">Start ID<br>
+        <div class="settings-start">
+            <label for="seed">Start ID</label><br>
             <input type="number" id="seed" name="seed" min="0" max="99999" value="1">
         </div>
 
-        <div class="settings-page">Pages<br>
+        <div class="settings-page">
+            <label for="page">Pages</label><br>
             <select name="page" id="page">
                 <option>Both</option>
                 <option value="A">Only A</option>
@@ -1018,7 +1042,8 @@
             </select>
         </div>
 
-        <div class="settings-games">Number of games<br>
+        <div class="settings-games">
+            <label for="games">Number of games</label><br>
             <select name="games" id="games">
                 <option selected>1</option>
                 <option>5</option>
@@ -1031,13 +1056,27 @@
     </div>
 
     <div class="expand" onclick="onExpand()">Advanced settings <span id="expander" class="material-icons">expand_more</span></div>
+
     <div class="advanced">
+
         <div class="settings-row">
-            <div class="settings-size">Page size<br>
-                <select name="size" id="size">
-                    <option value="A4">A4</option>
-                    <option value="letter">US Letter</option>
-                </select>
+
+            <div>
+                <div class="settings-select">
+                    <label for="size">Page size</label><br>
+                    <select name="size" id="size">
+                        <option value="A4">A4</option>
+                        <option value="letter">US Letter</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label for="lang">Language</label><br>
+                    <select name="lang" id="lang">
+                        <option value="en">English</option>
+                        <option value="sv">Swedish</option>
+                    </select>
+                </div>
             </div>
 
             <div class="settings-checkboxes">
@@ -1050,92 +1089,66 @@
                     <label for="interactive">Interactive</label>
                 </div>
             </div>
-            
-            <div>Language<br>
-                <select name="lang" id="lang">
-                    <option value="en">English</option>
-                    <option value="sv">Swedish</option>
-                </select>
-            </div>
-        </div>
 
-        <div class="settings-row">
-            <div>Target word symbol<br>
-                <select name="targetsymbol" id="target-symbol">
-                    <option value="star">Star</option>
-                    <option value="star-outline">Star outline</option>
-                    <option value="target">Target</option>
-                    <option value="bullseye">Bullseye</option>
-                    <option value="bullseye-l">Bullseye XL</option>
-                    <option value="smiley">Smiley</option>
-                </select><br>
-               Black word symbol<br>
-                <select name="blacksymbol" id="black-symbol">
-                    <option value="filled">Filled</option>
-                    <option value="skull">Skull</option>
-                    <option value="sadface">Sad face</option>
-                    <option value="biohazard">Biohazard</option>
-                    <option value="nuclear">Nuclear</option>
-                </select>
+            <div>
+                <div class="settings-select">
+                    <label for="target-symbol">Target word symbol</label><br>
+                    <select name="targetsymbol" id="target-symbol">
+                        <option value="star">Star</option>
+                        <option value="star-outline">Star outline</option>
+                        <option value="target">Target</option>
+                        <option value="bullseye">Bullseye</option>
+                        <option value="bullseye-l">Bullseye XL</option>
+                        <option value="smiley">Smiley</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="black-symbol">Black word symbol</label><br>
+                    <select name="blacksymbol" id="black-symbol">
+                        <option value="filled">Filled</option>
+                        <option value="skull">Skull</option>
+                        <option value="sadface">Sad face</option>
+                        <option value="bomb">Bomb</option>
+                        <option value="biohazard">Biohazard</option>
+                        <option value="nuclear">Nuclear</option>
+                    </select>
+                </div>
             </div>
+
         </div>
 
         <div class="customizer">
             <div class="customizer-title">Game configuration</div>
             <form>
                 <div class="customizer-symbol">
-                    <svg class="icon">
-                        <use href="#white"/>
-                    </svg>
+                    <svg><use href="#white"/></svg>
                     <br>
-                    <svg class="icon">
-                        <use href="#white"/>
-                    </svg>
+                    <svg><use href="#white"/></svg>
                 </div>
                 <div class="customizer-symbol">
-                    <svg class="icon">
-                        <use href="#green"/>
-                    </svg>
+                    <svg><use href="#green"/></svg>
                     <br>
-                    <svg class="icon">
-                        <use href="#green"/>
-                    </svg>
+                    <svg><use href="#green"/></svg>
                 </div>
                 <div class="customizer-symbol">
-                    <svg class="icon">
-                        <use href="#black"/>
-                    </svg>
+                    <svg><use href="#black"/></svg>
                     <br>
-                    <svg class="icon">
-                        <use href="#black"/>
-                    </svg>
+                    <svg><use href="#black"/></svg>
                 </div>
                 <div class="customizer-symbol">
-                    <svg class="icon">
-                        <use href="#black"/>
-                    </svg>
+                    <svg><use href="#black"/></svg>
                     <br>
-                    <svg class="icon">
-                        <use href="#white"/>
-                    </svg>
+                    <svg><use href="#white"/></svg>
                 </div>
                 <div class="customizer-symbol">
-                    <svg class="icon">
-                        <use href="#black"/>
-                    </svg>
+                    <svg><use href="#black"/></svg>
                     <br>
-                    <svg class="icon">
-                        <use href="#green"/>
-                    </svg>
+                    <svg><use href="#green"/></svg>
                 </div>
                 <div class="customizer-symbol">
-                    <svg class="icon">
-                        <use href="#green"/>
-                    </svg>
+                    <svg><use href="#green"/></svg>
                     <br>
-                    <svg class="icon">
-                        <use href="#white"/>
-                    </svg>
+                    <svg> <use href="#white"/></svg>
                 </div>
 
                 <div class="customizer-turns-title">Turns</div>

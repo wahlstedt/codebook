@@ -28,7 +28,7 @@ the bottom **(7)** are words that your partner absolutely must not select becaus
 
 The table at the bottom right **(8)** is the tracker, which you use to record the turns and help you keep track of game progress.
 
-Finally, the table with the symbols at the top **(2)** is a reminder on how the words are distributed between the players. [See below](#word-mixing) for details.
+Finally, the table with the symbols at the top **(2)** is a reminder on how the words are distributed between the players. [See below](#word-mixing) for details. It can also be used to keep track of the number of words left to find.
 
 ### Setup
 A game consists of 2 pages. Each player takes one of the pages, A or B. Make sure they have the same id.
