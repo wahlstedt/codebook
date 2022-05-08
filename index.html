@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="de"><!-- Workaround to get hyphens working on capitalized words -->
 <head>
     <meta http-equiv="content-type" content="text/html; charset=utf-8">
     <title>Codebook</title>
@@ -44,7 +44,7 @@
         
         @media screen {
             html {
-                font-size: 1.45vw; /* Makes page previews responsive */
+                font-size: 1.47vw; /* Makes page previews responsive */
             }
 
             body {
@@ -147,6 +147,7 @@
             flex-direction: row;
             flex-wrap: wrap;
             align-content: stretch;
+            justify-content: center;
             align-items: center;
             border: 0.4rem solid black;
             border-radius: 3rem;
@@ -161,12 +162,17 @@
         }
 
         .words-container div {
-            flex: 1;
+            flex: 1; /* Makes the smaller wordlists expand into available space */
             font-size: 1.3rem;
             font-family: 'Red Hat Display', sans-serif;
             font-weight: 650;
             text-align: center;
             box-sizing: border-box;
+            /* Static width & word wrap
+            word-break: break-word;
+            hyphens: auto;
+            max-width: 20%;
+            */
             flex-basis: calc(20% - 0.6rem); /* Some leeway to allow for the border in interactive mode */
             padding: 0 0.6rem;
         }
@@ -186,9 +192,13 @@
         }
         
         .js-circle {
-            border: 0.3rem green solid;
+            outline: 0.25rem green solid;
+            outline-offset: 0.3rem;
             border-radius: 1.6rem;
-            padding: 0 .4rem;
+        }
+
+        .words-container div span {
+            display: inline-block;  /* Makes the interactive circles nicer */
         }
 
         .black {
@@ -221,6 +231,7 @@
             font-size: 1.1rem;
             font-weight: 500;
             flex-basis: calc(33% - 0.8rem);
+            /* max-width: 33%; */
             padding: 0.2rem 0;
             margin: 0.2rem;
         }
@@ -232,6 +243,7 @@
             padding: 0.5rem 1rem;
             background-color: black;
             color: white;
+            max-width: none;
             /* flex-grow: 0; */
         }
 
