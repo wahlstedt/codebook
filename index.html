@@ -44,7 +44,7 @@
         
         @media screen {
             html {
-                font-size: 1.3vw; /* Makes page previews responsive */
+                font-size: 1.45vw; /* Makes page previews responsive */
             }
 
             body {
@@ -100,10 +100,10 @@
         }
 
         .header {
-            place-self: center;
             grid-column: 2 / 2;
             grid-row: 1 / 1;
             text-align: center;
+            line-height: 1rem;
             user-select: none;
             -webkit-user-select: none;
         }
@@ -116,7 +116,7 @@
 
         .title {
             font-family: 'Red Hat Display', sans-serif;
-            font-weight: 400;
+            font-weight: 420;
             font-size: 1.8rem;
             padding: 0 0.15rem;
             text-align: center;
@@ -162,9 +162,9 @@
 
         .words-container div {
             flex: 1;
-            font-size: 1.5rem;
+            font-size: 1.3rem;
             font-family: 'Red Hat Display', sans-serif;
-            font-weight: 600;
+            font-weight: 650;
             text-align: center;
             box-sizing: border-box;
             flex-basis: calc(20% - 0.6rem); /* Some leeway to allow for the border in interactive mode */
@@ -185,7 +185,7 @@
             content: "\00a0";
         }
         
-        .words-container .js-circle {
+        .js-circle {
             border: 0.3rem green solid;
             border-radius: 1.6rem;
             padding: 0 .4rem;
@@ -216,38 +216,37 @@
             margin-bottom: -3.4rem;
             margin-top: 1.4rem;
         }
-        
-        .black div {
-            font-size: 1.2rem;
-            font-weight: 500;
-            flex-basis: auto;
-            padding: 0.4rem 0.8rem;
-            margin: 0.2rem;
-            background-color: black;
-            color: white;
-        }
 
         .green div {
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             font-weight: 500;
             flex-basis: calc(33% - 0.8rem);
             padding: 0.2rem 0;
             margin: 0.2rem;
         }
 
+        .black div {
+            font-size: 1.1rem;
+            font-weight: 600;
+            flex-basis: auto;
+            padding: 0.5rem 1rem;
+            background-color: black;
+            color: white;
+            /* flex-grow: 0; */
+        }
+
         .helptext {
-            font-size: 0.9rem;
+            font-size: 0.8rem;
             text-align: center;
             font-weight: normal;
             margin-top: 0.15rem;
         }
 
-        #black {
-            margin-top: 0;
-        }
-
         #blackwords {
             margin-top: 1.8rem;
+            justify-content: center;
+            flex-grow: 0;
+            gap: 0.4rem;
         }
         
         .helptext b {
@@ -263,7 +262,7 @@
         .tracker th {
             border: 1px solid black;
             width: 2rem;
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             font-weight: normal;
             vertical-align: bottom;
             user-select: none;
