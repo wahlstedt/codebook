@@ -84,14 +84,14 @@
         .right {
             grid-area: right;
             margin-left: 1rem;
-            margin-top: 2rem;
+            margin-top: 1.5rem;
         }
 
         .topgrid {
             display: grid;
             grid-template-columns: 8rem 1fr 8rem;
             grid-template-rows: auto;
-            margin-bottom: 1rem;
+            margin-bottom: 0.75rem;
         }
 
         .player {
@@ -152,20 +152,16 @@
             border: 0.4rem solid black;
             border-radius: 3rem;
             padding: 1rem;
-            margin-top: 2rem;
             user-select: none;
             -webkit-user-select: none;
         }
 
-        #allwords {
-            margin-top: 0;
-        }
-
         .wordbox > div {
             flex: 1; /* Makes the smaller wordlists expand into available space */
-            font-size: 1.3rem;
             font-family: 'Red Hat Display', sans-serif;
             font-weight: 650;
+            font-size: 1.3rem;
+            line-height: 1;
             text-align: center;
             box-sizing: border-box;
             /* Static width & word wrap
@@ -204,32 +200,33 @@
         .black {
             border-width: 0;
             padding: 0;
-            margin-top: 1.8rem;
             justify-content: center;
             flex-grow: 0;
             gap: 0.4rem;
+            margin-top: 1.5rem;
         }
         
         .green {
             border-width: 0.5rem;
             border-style: double;
             border-radius: 1rem;
-            padding: 0.7rem 0.4rem 0.4rem;
-            flex-grow: 1.25;
+            padding: 0.9rem 0.4rem 0.4rem;
+            flex-grow: 1.5;
         }
 
         .white {
-            border-width: 0.2rem;
+            border-width: 0.15rem;
             border-style: solid;
             border-radius: 1rem;
             padding: 0.4rem;
+            margin-top: 1.5rem;
         }
 
         .target-header {
             position: relative;
             text-align: center;
-            margin-bottom: -3.4rem;
-            margin-top: 1.4rem;
+            margin-bottom: -1.4rem;
+            margin-top: 0.8rem;
         }
 
         .green > div {
@@ -243,14 +240,14 @@
             font-size: 1rem;
             font-weight: 450;
             flex-basis: calc(25% - 0.8rem);
-            margin: 0.2rem;
+            margin: 0.3rem 0;
         }
 
         .black > div {
             font-size: 1.2rem;
             font-weight: 600;
             flex-basis: auto;
-            padding: 0.3rem 1rem;
+            padding: 0.5rem 1rem 0.3rem;
             background-color: black;
             color: white;
             max-width: none;
@@ -263,10 +260,6 @@
             text-align: center;
             font-weight: normal;
             margin-top: 0.15rem;
-        }
-
-        #blackwords {
-
         }
         
         .helptext b {
