@@ -151,19 +151,23 @@
             align-content: space-around;
             justify-content: center;
             align-items: center;
-            border: 0.4em solid black;
-            border-radius: 3em;
+            border: 0.4rem solid black;
+            border-radius: 3rem;
             padding: 1em;
             user-select: none;
-            -webkit-user-select: none;
-        }
-
-        .wordbox > div {
-            flex: 1; /* Makes the smaller wordlists expand into available space */
             font-family: 'Red Hat Display', sans-serif;
             font-weight: 650;
             font-size: 1.3rem;
             line-height: 1;
+            -webkit-user-select: none;
+        }
+
+        .wordbox.titlecase {
+            font-size: 1.5rem;
+        }
+
+        .wordbox > div {
+            flex: 1; /* Makes the smaller wordlists expand into available space */
             text-align: center;
             box-sizing: border-box;
             /* Static width & word wrap
@@ -198,6 +202,34 @@
         .wordbox > div span {
             display: inline-block;  /* Makes the interactive circles nicer */
         }
+        
+        .green {
+            border-width: 0.4rem;
+            border-style: double;
+            border-radius: 1rem;
+            padding: 1.1em 0.4em 0.5em;
+            flex-grow: 1.7;
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        .green.titlecase {
+            font-size: 1.4rem;
+        }
+
+        .white {
+            border-width: 0.15rem;
+            border-style: solid;
+            border-radius: 1rem;
+            padding: 0.4em;
+            margin-top: 1.5em;
+            font-size: 1rem;
+            font-weight: 450;
+        }
+
+        .white.titlecase {
+            font-size: 1.15rem;
+        }
 
         .black {
             border-width: 0;
@@ -206,22 +238,12 @@
             flex-grow: 0;
             gap: 0.3em;
             margin-top: 1.5em;
-        }
-        
-        .green {
-            border-width: 0.5em;
-            border-style: double;
-            border-radius: 1em;
-            padding: 1.1em 0.4em 0.5em;
-            flex-grow: 1.7;
+            font-size: 1.2rem;
+            font-weight: 600;
         }
 
-        .white {
-            border-width: 0.15em;
-            border-style: solid;
-            border-radius: 1rem;
-            padding: 0.4em;
-            margin-top: 1.5em;
+        .black.titlecase {
+            font-size: 1.4rem;
         }
 
         .target-header {
@@ -232,22 +254,16 @@
         }
 
         .green > div {
-            font-size: 1.2rem;
-            font-weight: 600;
             flex-basis: calc(33% - 1.2em);
             margin: 0.3em;
         }
 
         .white > div {
-            font-size: 1rem;
-            font-weight: 450;
             flex-basis: calc(25% - 0.8em);
             margin: 0.3em 0;
         }
 
         .black > div {
-            font-size: 1.2rem;
-            font-weight: 600;
             flex-basis: fit-content;
             padding: 0.5em 1em 0.3em;
             background-color: black;
@@ -347,11 +363,11 @@
         .settings-checkboxes {
             display: flex;
             flex-direction: column;
-            justify-content: space-evenly;
+            line-height: 2em;
             text-align: left;
         }
         
-        .setting-turns {
+        .settings-turns {
             align-self: center;
             grid-row: 3;
             grid-column: 7;
@@ -604,7 +620,7 @@
             if (document.getElementById("help").checked) {
                 // Replace the numbers in the "all" helptext with the current numbers and make them bold
                 const element = pageA.getElementById("all");
-                const words =  element.textContent.split(' ');
+                const words = element.textContent.split(' ');
                 // Number of words to find
                 words[words.indexOf("15")] = `<b>${deck[0][2] + deck[1][2] + deck[2][2] + deck[3][2] +deck[4][2]}</b>`;
                 // Total number of words
@@ -631,6 +647,12 @@
             // Both players have an area with all the words
             const sortedWords = localeSort([...words]); // sort() is destructive, need to work on a copy of the words array to keep it random!
             insertWords(pageA, "allwords", sortedWords);
+
+            // Adjust font size according to selected letter case
+            if (parseInt(document.getElementById("caps").value) === 0) {
+                // Title Case = increase font size
+                pageA.querySelectorAll(".wordbox").forEach(node => node.classList.add("titlecase"));
+            }
 
             // The rest of the data is different, so we need to duplicate the node to fill them in separately
             const pageB = pageA.cloneNode(true);
@@ -717,6 +739,16 @@
             return key;
         }
 
+        // Set the letter casing on all words, using the currently selected wordlist's locale
+        function setLetterCase() {
+            const locale = document.getElementById("wordlist").value.split('_').shift();
+            if (parseInt(document.getElementById("caps").value) === 0) { // Title Case
+                allWords = allWords.map(a => a.split(' ').map(w => w[0].toLocaleUpperCase(locale) + w.substring(1).toLocaleLowerCase(locale)).join(' '));
+            } else {
+                allWords = allWords.map(w => w.toLocaleUpperCase(locale));
+            }
+        }
+
         // Calculate how many words in total (normal game is 25)
         function calcNumWords(deck) {
             return deck.reduce((prev, curr) => prev + curr[2], 0);
@@ -748,16 +780,17 @@
         }
 
         function addWordlists(lists) {
-            const locale = document.getElementById("wordlist").value.split('_').shift();
             for (const txt of lists) {
                 // split() makes each line an array item. filter() removes empty lines.
-                allWords.push(...txt.split(/\r?\n/).filter(Boolean).map(w => w.toLocaleUpperCase(locale)));
+                allWords.push(...txt.split(/\r?\n/).filter(Boolean));
             }
             // Remove duplicates
             allWords = [...new Set(allWords)];
             const len = allWords.length;
             console.log(`Loaded ${len} words`);
             if (len < 25) throw new RangeError("Need at least 25 words!");
+            // Set selected letter case
+            setLetterCase();
             document.getElementById("status").innerHTML = `${len} words loaded. <a href='javascript:window.print()'>Click here</a> to print or save as PDF.`;
             renderAll();
         }
@@ -767,13 +800,19 @@
             // Ignore events from the interactive text input
             if (ev.target.classList.contains("js-tracker-clue")) return;
 
-            // Is it a wordlist load?
-            if (ev.target.id === "wordlist") {
-                fetch(`https://raw.githubusercontent.com/wahlstedt/codebook/master/wordlists/${ev.target.value}.txt`, {cache: "force-cache"}).then(r =>r.text()).then(result => {
-                    allWords = [];
-                    addWordlists([result]);
-                });
-                return;
+            // Handle special cases
+            switch (ev.target.id) {
+                case "wordlist": {
+                    fetch(`https://raw.githubusercontent.com/wahlstedt/codebook/master/wordlists/${ev.target.value}.txt`, {cache: "force-cache"}).then(r =>r.text()).then(result => {
+                        allWords = [];
+                        addWordlists([result]);
+                    });
+                    return;
+                }
+
+                case "caps": {
+                    setLetterCase();
+                }
             }
 
             // A setting has changed and we need to re-render all pages
@@ -1113,6 +1152,14 @@
 
             <div>
                 <div class="settings-select">
+                    <label for="caps">Text style</label><br>
+                    <select name="caps" id="caps">
+                        <option value="0">Capitalized</option>
+                        <option value="1" selected>ALL CAPS</option>
+                    </select>
+                </div>
+
+                <div class="settings-select">
                     <label for="target-symbol">Target word symbol</label><br>
                     <select name="targetsymbol" id="target-symbol">
                         <option value="star">Star</option>
@@ -1203,7 +1250,7 @@
                     Count per player
                 </div>
 
-                <div class="setting-turns">
+                <div class="settings-turns">
                     <input type="number" id="turns" name="turns" min="2" max="20" value="9">
                 </div>
 
