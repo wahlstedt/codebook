@@ -62,6 +62,10 @@
         }
 
         @media print {
+            .page:last-child {   /* Fixes Safari blank page at end */
+                break-after: avoid;
+            }
+
             .github-fork-ribbon, .settings, .settings * {
                 display: none !important;
             }
@@ -154,6 +158,7 @@
             border: 0.4rem solid black;
             border-radius: 3rem;
             padding: 1em;
+            gap: 0.6em;
             user-select: none;
             font-family: 'Red Hat Display', sans-serif;
             font-weight: 650;
@@ -176,7 +181,6 @@
             max-width: 20%;
             */
             flex-basis: calc(20% - 0.8em); /* Some leeway to allow for the border in interactive mode */
-            margin: 0.3em;
         }
 
         .js-strike { /* Using longhand format because Safari doesn't have the shorthand */
@@ -255,21 +259,18 @@
 
         .green > div {
             flex-basis: calc(33% - 1.2em);
-            margin: 0.3em;
         }
 
         .white > div {
             flex-basis: calc(25% - 0.8em);
-            margin: 0.3em 0;
         }
 
         .black > div {
             flex-basis: fit-content;
-            padding: 0.5em 1em 0.3em;
+            padding: 0.3em 1em;
             background-color: black;
             color: white;
             max-width: none;
-            margin: 0;
             /* flex-grow: 0; */
         }
 
@@ -611,7 +612,7 @@
             const language = document.getElementById("lang").value;
             if (language !== "en") { // The english text is already in the template
                 const text = translations[language];
-                for (id of ["all", "green", "white", "black", "clue"]) {
+                for (const id of ["all", "green", "white", "black", "clue"]) {
                     pageA.getElementById(id).innerHTML = text[id];
                 }
             }
@@ -824,7 +825,7 @@
         function onReset(ev) {
             ev.preventDefault();
             // Manually reset the form, so we get updated values
-            ev.srcElement.form.reset();
+            ev.target.form.reset();
             renderAll();
         }
 

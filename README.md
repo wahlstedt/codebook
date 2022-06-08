@@ -4,7 +4,7 @@ A simple-to-use tool to generate pages you print out to play a fun cooperative w
 ## How to use
 Use it [online](http://wahlstedt.github.io/codebook/), or locally by downloading via git or the [zip file](https://github.com/wahlstedt/codebook/archive/refs/heads/master.zip).
 
-Once open in a browser you select which wordlist you want to use from the dropdown menu, or drag local textfiles with words onto the page. Use one of the [included wordlists](https://githubcom/wahlstedt/codebook/tree/master/wordlists) or create your own.
+Once open in a browser you select which wordlist you want to use from the dropdown menu, or drag local textfiles with words onto the page. Use one of the [included wordlists](https://github.com/wahlstedt/codebook/tree/master/wordlists) or create your own.
 
 - Adjust the options to set the style and number of games to generate.
 - Print the pages from your browser, or save them as a pdf.
@@ -28,7 +28,7 @@ the bottom **(7)** are words that your partner absolutely must not select becaus
 
 The table at the bottom right **(8)** is the tracker, which you use to record the turns and help you keep track of game progress.
 
-Finally, the table with the symbols at the top **(2)** is a reminder on how the words are distributed between the players. [See below](#word-mixing) for details. It can also be used to keep track of the number of words left to find.
+Finally, the table with the symbols at the top **(2)** is a reminder on how the words are distributed between the players. It can also be used to keep track of the number of words left to find. [See below](#word-mixing) for details.
 
 ### Setup
 A game consists of 2 pages. Each player takes one of the pages, A or B. Make sure they have the same id.
@@ -122,9 +122,9 @@ Most settings should be fairly self-explanatory, the advanced ones might require
 The standard game has 25 words, each player gets 9 target words and 3 black words, and you both need to find a total of 15 words in order to win.
 By using the game configuration you can create new variants by changing the number of words and their distribution.
 
-You do this by editing the numbers in the table of word combinations. There's three different word types, represented by the circles: target words, unused words and black words. These can be combined in 9 ways, but since the game is symmetric (both players have the same combinations) you can only adjust 6 values.
+You do this by editing the numbers in the table of word combinations. There's three different word types, represented by the circles: target words, unused words and black words. These can be combined in 9 ways, but you can only adjust 6 values to keep the game symmetric (both players have the same combinations).
 
-The values for the combinations where the words are the same type for both players are set _in total_, while the other combinations are set with the number _per player_, in order to keep the game symmetric.
+The values for the combinations where the words are the same type for both players are set _in total_, while the other combinations are set with the number _per player_, to keep the game symmetric.
    
 ### Interactive mode
 The _first_ page is by default interactive to enable play on device. Click on words to toggle their status. Found 
@@ -134,9 +134,15 @@ Click on the tracker table cells to enter clues or toggle values.
 
 ## Troubleshooting
 ### Browser support
-Chrome is recommended and tested to produce printable pages.
+The following browser versions or newer are needed to render the pages properly:
+ 
+| Browser | Version |
+|---------|---------|
+| Chrome  | 88      |
+| Firefox | 89      |
+| Safari  | 15      |
 
-Layouts will not work properly in Safari versions prior to v15.
+Both Chrome and Firefox has been tested to produce printable pages.
 
 ### Printing
 To make sure all page elements print out, enable the "background graphics" option.
