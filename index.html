@@ -271,6 +271,8 @@
             background-color: black;
             color: white;
             max-width: none;
+            -webkit-print-color-adjust: exact;
+            color-adjust: exact;
             /* flex-grow: 0; */
         }
 
@@ -523,8 +525,8 @@
 
             // Grab selected options
             const seed = document.getElementById("seed").valueAsNumber;
-            const numGames = parseInt(document.getElementById("games").value);
             const turns = document.getElementById("turns").valueAsNumber;
+            const numGames = parseInt(document.getElementById("games").value);
             const targetSymbol = document.getElementById("target-symbol").value;
             const blackSymbol = document.getElementById("black-symbol").value;
             
@@ -1028,6 +1030,7 @@
             <option value="sq">Albanian</option>
             <option value="ar">Arabic</option>
             <option value="ar-lb">Arabic (Lebanon)</option>
+            <option value="be">Belarusian</option>
             <option value="bg">Bulgarian</option>
             <option value="bg_duet">Bulgarian DUET</option>
             <option value="ca">Catalan</option>
